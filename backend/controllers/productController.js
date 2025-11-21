@@ -13,3 +13,19 @@ export const createProduct = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
+
+export const updateProduct = async (req, res) => {
+	const product = await Product.findByPk(req.params.productId);
+	if (!product)
+		return res.status(404).json({ message: 'Product not found.' });
+
+	const body = req.body || {};
+	const updateData = {
+		...body,
+		offerAmount: body.offerAmount ?? null,
+		offerPrice: body.offerPrice ?? null,
+	};
+	await product.update(updateData);
+
+	res.json(product);
+};
