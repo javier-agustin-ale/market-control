@@ -29,3 +29,11 @@ export const updateProduct = async (req, res) => {
 
 	res.json(product);
 };
+
+export const deleteProduct = async (req, res) => {
+	const product = await Product.findByPk(req.params.productId);
+	if (!product)
+		return res.status(404).json({ message: 'Product not found.' });
+	await product.destroy();
+	res.json({ message: 'Product deleted successfully' });
+};
