@@ -1,4 +1,17 @@
-node_modules/
+# Node.js
+backend/node_modules/
+backend/.env
+backend/dist/
+backend/data/
+backend/*.sqlite
+
+# Angular
+frontend/haiilomarkt-fe/node_modules/
+frontend/haiilomarkt-fe/dist/
+frontend/haiilomarkt-fe/.angular/cache/
+frontend/haiilomarkt-fe/.env
+
+# General
+.DS_Store
 .env
-dist/
-data/
+*.log
