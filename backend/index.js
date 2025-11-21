@@ -1,11 +1,23 @@
-const express = require('express');
+import dotenv from 'dotenv';
+import express from 'express';
+import sequelize from './config.js';
+import haiilomarktRoutes from './routes/haiilomarktRoutes.js';
+
+dotenv.config();
+
 const app = express();
-const port = 3000;
+app.use(express.json());
+app.use('/api/haiilomarkt', haiilomarktRoutes);
 
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
+const PORT = process.env.APP_PORT || 3000;
 
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
-});
+sequelize
+	.sync({ alter: true })
+	.then(() => {
+		app.listen(PORT, () => {
+			console.log('Server is running in port ' + PORT);
+		});
+	})
+	.catch((err) => {
+		console.log('DB connection failed: ', err);
+	});
