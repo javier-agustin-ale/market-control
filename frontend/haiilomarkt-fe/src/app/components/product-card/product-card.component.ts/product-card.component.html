@@ -1,1 +1,24 @@
+<mat-card class="product-card">
+  <div class="image-container">
+    <img
+      src="https://material.angular.dev/assets/img/examples/shiba2.jpg"
+      alt="product image"
+      mat-card-md-image
+    />
+    <!-- [src]="imageUrl" -->
+  </div>
 
+  <mat-card-content>
+    <!-- <h3 class="title">Banans</h3> -->
+    <div class="row">
+      <h3 class="title">Banans</h3>
+
+      <button mat-icon-button color="primary">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <p class="subtitle">Unit Price</p>
+
+    <div class="offer">Special Offer: 3 for $1.30</div>
+  </mat-card-content>
+</mat-card>
