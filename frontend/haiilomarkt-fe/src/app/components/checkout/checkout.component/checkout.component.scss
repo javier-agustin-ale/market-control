@@ -7,7 +7,6 @@
 
 .available-products-container {
   width: 65%;
-  //border: 1px solid black;
 }
 
 .shopping-cart-container {
@@ -16,7 +15,7 @@
   padding-left: 15px;
 }
 
-.table-container {
+.table-total-container {
   overflow: auto;
   max-height: 400px;
 }
@@ -31,3 +30,8 @@ table {
   border-top: 1px solid rgb(152, 152, 152);
   text-align: center;
 }
+
+// .product-card {
+//   width: 190px;
+//   max-width: 100%;
+// }

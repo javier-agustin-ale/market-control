@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { ProductCardComponent } from '../../product-card/product-card.component.ts/product-card.component';
+import { AvailableProductsComponent } from '../../available-products/available-products.component/available-products.component';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule, MatTableModule, ProductCardComponent],
+  imports: [CommonModule, MatTableModule, AvailableProductsComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
   standalone: true,
