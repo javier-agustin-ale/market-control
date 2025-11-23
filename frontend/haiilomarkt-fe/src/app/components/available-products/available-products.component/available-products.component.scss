@@ -1,0 +1,26 @@
+.header-container {
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.input-container {
+  transform: scale(0.8);
+}
+.search-field {
+  max-width: 200px;
+}
+.product-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  column-gap: 15px;
+  row-gap: 15px;
+  box-sizing: border-box;
+  overflow: auto;
+  max-height: 630px;
+}
+
+.shopping-cart-container {
+  width: 35%;
+  border-left: 1px solid rgb(152, 152, 152);
+  padding-left: 15px;
+}

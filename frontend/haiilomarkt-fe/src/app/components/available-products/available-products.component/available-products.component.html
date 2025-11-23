@@ -1,0 +1,30 @@
+<div class="header-container">
+  <h2>Available Items</h2>
+  <div class="input-container">
+    <mat-form-field class="search-field" appearance="outline" color="accent">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" [(ngModel)]="searchValue" />
+      @if (searchValue) {
+      <button matSuffix matIconButton aria-label="Clear" (click)="searchValue = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+    </mat-form-field>
+  </div>
+</div>
+<div class="product-card-container">
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+  <app-product-card></app-product-card>
+</div>
