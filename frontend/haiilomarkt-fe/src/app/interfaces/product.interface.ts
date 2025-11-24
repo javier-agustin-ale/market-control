@@ -4,4 +4,10 @@ export interface Product {
   unitPrice: number;
   offerAmount: number | null;
   offerPrice: number | null;
+  image: ImageBuffer;
+}
+
+interface ImageBuffer {
+  type: 'Buffer';
+  data: number[];
 }

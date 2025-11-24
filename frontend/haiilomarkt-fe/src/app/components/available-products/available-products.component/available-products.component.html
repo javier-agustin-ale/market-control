@@ -2,7 +2,7 @@
   <h2>Available Items</h2>
   <div class="input-container">
     <mat-form-field class="search-field" appearance="outline" color="accent">
-      <mat-label>Search</mat-label>
+      <mat-label>Search Product</mat-label>
       <input matInput type="text" [(ngModel)]="searchValue" />
       @if (searchValue) {
       <button matSuffix matIconButton aria-label="Clear" (click)="searchValue = ''">
@@ -13,18 +13,9 @@
   </div>
 </div>
 <div class="product-card-container">
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
-  <app-product-card></app-product-card>
+  @if (productList$ | async; as productList) { @for (product of productList; track $index) {
+  <app-product-card [context]="context" [product]="product"></app-product-card>
+  } } @else {
+  <h3 class="no-products">No products available</h3>
+  }
 </div>

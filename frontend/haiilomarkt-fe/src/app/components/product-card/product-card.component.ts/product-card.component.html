@@ -1,24 +1,33 @@
 <mat-card class="product-card">
+  @if (cardImage) {
   <div class="image-container">
-    <img
-      src="https://material.angular.dev/assets/img/examples/shiba2.jpg"
-      alt="product image"
-      mat-card-md-image
-    />
-    <!-- [src]="imageUrl" -->
+    <img [src]="cardImage" alt="product image" mat-card-md-image />
   </div>
+  }
 
   <mat-card-content>
     <div class="row">
-      <h3 class="title">Bananas</h3>
+      <h3 class="title">{{ product.name }}</h3>
 
-      <button mat-icon-button color="primary">
+      @if(context === 'checkout') {
+      <button mat-icon-button>
         <mat-icon>add</mat-icon>
       </button>
+      } @else {
+      <button mat-icon-button color="primary">
+        <mat-icon>edit</mat-icon>
+      </button>
+      }
     </div>
-    <p class="subtitle">Unit Price</p>
+    <p class="subtitle">
+      Unit Price: <b>{{ product.unitPrice | currency : 'EUR' }}</b>
+    </p>
 
-    <div class="offer">Special Offer: 3 for $1.30</div>
+    @if (product.offerAmount) {
+    <div class="offer">
+      Get {{ product.offerAmount }} for {{ product.offerPrice | currency : 'EUR' }}
+    </div>
     <!-- <div class="offer">Special Offer: 3 for $1.30</div> -->
+    }
   </mat-card-content>
 </mat-card>

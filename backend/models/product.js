@@ -22,6 +22,10 @@ const Product = sequelize.define('Product', {
 	offerPrice: {
 		type: DataTypes.DECIMAL(10, 2),
 	},
+	image: {
+		type: DataTypes.BLOB('long'),
+		allowNull: false,
+	},
 });
 
 export default Product;
