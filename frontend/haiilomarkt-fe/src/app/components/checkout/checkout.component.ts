@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { AvailableProductsComponent } from '../../available-products/available-products.component/available-products.component';
+import { AvailableProductsComponent } from '../available-products/available-products.component';
 
 @Component({
   selector: 'app-checkout',

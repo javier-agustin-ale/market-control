@@ -6,9 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NEVER, Observable } from 'rxjs';
-import { Product } from '../../../interfaces/product.interface';
-import { ProductService } from '../../../services/product-service/product.service';
-import { ProductCardComponent } from '../../product-card/product-card.component.ts/product-card.component';
+import { Product } from '../../interfaces/product.interface';
+import { ProductService } from '../../services/product-service/product.service';
+import { ProductCardComponent } from '../product-card/product-card.component';
 
 @Component({
   selector: 'app-available-products',

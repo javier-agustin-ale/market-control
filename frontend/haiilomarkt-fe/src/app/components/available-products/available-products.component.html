@@ -13,9 +13,9 @@
   </div>
 </div>
 <div class="product-card-container">
-  @if (productList$ | async; as productList) { @for (product of productList; track $index) {
-  <app-product-card [context]="context" [product]="product"></app-product-card>
-  } } @else {
+  @if (productList$ | async; as productList) { @if (!productList.length) {
   <h3 class="no-products">No products available</h3>
-  }
+  } @else { @for (product of productList; track $index) {
+  <app-product-card [context]="context" [product]="product"></app-product-card>
+  } } }
 </div>

@@ -4,7 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { SafeUrl } from '@angular/platform-browser';
-import { Product } from '../../../interfaces/product.interface';
+import { Product } from '../../interfaces/product.interface';
+
 @Component({
   selector: 'app-product-card',
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],

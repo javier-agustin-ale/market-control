@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CheckoutComponent } from '../../checkout/checkout.component/checkout.component';
+import { CheckoutComponent } from '../checkout/checkout.component';
 
 @Component({
   selector: 'app-home',
