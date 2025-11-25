@@ -3,30 +3,6 @@
     <app-available-products [context]="'checkout'"></app-available-products>
   </div>
   <div class="shopping-cart-container">
-    <h2>Shopping Cart</h2>
-    <section class="table-total-container mat-elevation-z8" tabindex="0">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="scanned">
-          <th mat-header-cell *matHeaderCellDef>Scanned</th>
-          <td mat-cell *matCellDef="let element">{{ element.scanned }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="quantity">
-          <th mat-header-cell *matHeaderCellDef>Quantity</th>
-          <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>Price</th>
-          <td mat-cell *matCellDef="let element">{{ element.price }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </section>
-    <div class="total-container">
-      <h1>Total to Pay: $3.45</h1>
-    </div>
+    <app-shopping-cart></app-shopping-cart>
   </div>
 </div>

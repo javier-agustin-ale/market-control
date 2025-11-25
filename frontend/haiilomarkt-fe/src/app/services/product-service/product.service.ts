@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NEVER, Observable, of } from 'rxjs';
+import { catchError, NEVER, Observable, take, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../interfaces/product.interface';
 
@@ -15,12 +15,11 @@ export class ProductService {
   }
 
   private defineStreams(): void {
-    this.productList$ = of([]);
-    // this.productList$ = this.httpClient.get<Product[]>(this.baseUrl + '/allProducts').pipe(
-    //   take(1),
-    //   catchError((error) => {
-    //     return throwError(() => error);
-    //   })
-    // );
+    this.productList$ = this.httpClient.get<Product[]>(this.baseUrl + '/allProducts').pipe(
+      take(1),
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    );
   }
 }

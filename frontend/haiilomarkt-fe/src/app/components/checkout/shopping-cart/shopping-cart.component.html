@@ -1,1 +1,65 @@
-<p>shopping-cart.component works!</p>
+<h2 class="title">Shopping Cart</h2>
+
+<div class="header-container">
+  <span>Scanned Item</span>
+  <span class="quantity-header">Quantity</span>
+  <span class="price-header">Price</span>
+</div>
+
+<div class="products-list">
+  @for (product of shoppingCart$ | async | reverseShoppingCartList; track $index) {
+  <div class="product-container">
+    <div class="item-row">
+      <div class="product-details">
+        <div>
+          <img class="product-img" [src]="product.imageUrl" />
+        </div>
+
+        <div class="product-info-container">
+          <div class="item-name" [matTooltip]="product.name">
+            {{ product.name.length > 15 ? (product.name | slice : 0 : 15) + '…' : product.name }}
+          </div>
+          <div class="unit-price">Unit Price {{ product.unitPrice | currency : 'EUR' }}</div>
+        </div>
+      </div>
+
+      <div class="quantity-container">
+        <div class="quantity-number">{{ product.quantity }}</div>
+        <div>
+          <mat-icon
+            class="remove-product-icon"
+            (click)="decreaseQuantity(product.productId)"
+            matTooltip="Take one item out."
+            >remove_circle_outline</mat-icon
+          >
+        </div>
+      </div>
+
+      <div
+        class="price-container"
+        [innerHTML]="getPricePerProduct(product) | currency : 'EUR'"
+      ></div>
+    </div>
+
+    @if (product.offerAmount && product.quantity >= product.offerAmount) {
+    <div class="discount-row">
+      <div class="discount-text">Discount Applied</div>
+      <div class="discount-amount">
+        -
+        {{ getMoneySaved(product) | currency : 'EUR' }}
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>
+
+<div class="total-container">
+  @if(totalToPay$ | async; as totalToPay) {
+  <h1>
+    Total to Pay: <span class="total-value">{{ totalToPay | currency }}</span>
+  </h1>
+  } @else {
+  <h3>Ready to start shopping?</h3>
+  }
+</div>

@@ -7,10 +7,12 @@
 
   <mat-card-content>
     <div class="row">
-      <h3 class="title">{{ product.name }}</h3>
+      <h3 class="title">
+        {{ product.name }}
+      </h3>
 
       @if(context === 'checkout') {
-      <button mat-icon-button>
+      <button mat-icon-button (click)="addToCart()" matTooltip="Add to cart">
         <mat-icon>add</mat-icon>
       </button>
       } @else {
@@ -27,7 +29,6 @@
     <div class="offer">
       Get {{ product.offerAmount }} for {{ product.offerPrice | currency : 'EUR' }}
     </div>
-    <!-- <div class="offer">Special Offer: 3 for $1.30</div> -->
     }
   </mat-card-content>
 </mat-card>
