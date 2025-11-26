@@ -6,8 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BehaviorSubject, combineLatest, map, NEVER, Observable } from 'rxjs';
+import { TabContextEnum } from '../../enums/tab-context.enum';
 import { Product } from '../../interfaces/product.interface';
 import { ProductService } from '../../services/product-service/product.service';
+import { TabContext } from '../../types/tab-context.type';
 import { ProductCardComponent } from '../product-card/product-card.component';
 
 @Component({
@@ -26,7 +28,8 @@ import { ProductCardComponent } from '../product-card/product-card.component';
   standalone: true,
 })
 export class AvailableProductsComponent {
-  @Input() context!: 'checkout' | 'productsManagment';
+  @Input() tabContext!: TabContext;
+  public tabContextEnum = TabContextEnum;
 
   public searchValue = '';
   public filteredProducts$: Observable<Product[]> = NEVER;

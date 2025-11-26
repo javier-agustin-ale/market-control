@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TabContextEnum } from '../../enums/tab-context.enum';
 import { AvailableProductsComponent } from '../available-products/available-products.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
@@ -9,4 +10,6 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
   styleUrl: './checkout.component.scss',
   standalone: true,
 })
-export class CheckoutComponent {}
+export class CheckoutComponent {
+  public tabContextEnum = TabContextEnum;
+}

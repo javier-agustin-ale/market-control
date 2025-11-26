@@ -2,7 +2,7 @@
   @if (cardImage) {
   <div class="image-container">
     <img [src]="cardImage" alt="product image" mat-card-md-image />
-    @if (context === 'productsManagment') {
+    @if (tabContext === tabContextEnum.ProductsManagment) {
     <button
       mat-icon-button
       color="warn"
@@ -22,7 +22,7 @@
         {{ product.name }}
       </h3>
 
-      @if(context === 'checkout') {
+      @if(tabContext === tabContextEnum.Checkout) {
       <button mat-icon-button (click)="addToCart()" matTooltip="Add to cart">
         <mat-icon>add</mat-icon>
       </button>

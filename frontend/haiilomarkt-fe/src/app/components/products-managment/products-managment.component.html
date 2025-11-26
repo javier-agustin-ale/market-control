@@ -1,6 +1,8 @@
 <div class="products-managment-container">
   <div class="available-products-container">
-    <app-available-products [context]="'productsManagment'"></app-available-products>
+    <app-available-products
+      [tabContext]="tabContextEnum.ProductsManagment"
+    ></app-available-products>
   </div>
   <div class="form-container">
     <app-product-form [productToEdit]="productToEdit$ | async"></app-product-form>

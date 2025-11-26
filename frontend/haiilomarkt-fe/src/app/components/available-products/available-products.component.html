@@ -1,5 +1,5 @@
 <div class="header-container">
-  <h2>Available Items {{ context === 'productsManagment' ? 'To Edit' : '' }}</h2>
+  <h2>Available Items {{ tabContext === tabContextEnum.ProductsManagment }}</h2>
   <div class="input-container">
     <mat-form-field class="search-field" appearance="outline" color="accent">
       <mat-label>Search Product</mat-label>
@@ -21,6 +21,6 @@
   @if (filteredProducts$ | async; as productList) { @if (!productList.length) {
   <h3 class="no-products">No products available</h3>
   } @else { @for (product of productList; track product.productId) {
-  <app-product-card [context]="context" [product]="product"></app-product-card>
+  <app-product-card [tabContext]="tabContext" [product]="product"></app-product-card>
   } } }
 </div>

@@ -7,11 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SafeUrl } from '@angular/platform-browser';
 import { catchError, Subscription, throwError } from 'rxjs';
+import { TabContextEnum } from '../../enums/tab-context.enum';
 import { Product } from '../../interfaces/product.interface';
 import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
 import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
 import { ProductService } from '../../services/product-service/product.service';
 import { ShoppingCartService } from '../../services/shopping-cart-service/shopping-cart-service';
+import { TabContext } from '../../types/tab-context.type';
 import { DeleteProductDialogComponent } from './delete-product-dialog/delete-product-dialog.component';
 
 @Component({
@@ -23,7 +25,9 @@ import { DeleteProductDialogComponent } from './delete-product-dialog/delete-pro
 })
 export class ProductCardComponent implements OnInit, OnDestroy {
   @Input() public product!: Product;
-  @Input() public context!: 'checkout' | 'productsManagment';
+  @Input() public tabContext!: TabContext;
+
+  public tabContextEnum = TabContextEnum;
 
   public cardImage: SafeUrl | null = null;
   private dialogRefSubscription!: Subscription;
