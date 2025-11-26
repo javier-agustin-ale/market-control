@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete "{{ productName }}" ?</h2>
+<mat-dialog-content>
+  <p>Are you sure you want to delete this product ? This action cannot be undone.</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="this.dialogRef.close(false)">No</button>
+  <button matButton (click)="this.dialogRef.close(true)" cdkFocusInitial>Delete</button>
+</mat-dialog-actions>
