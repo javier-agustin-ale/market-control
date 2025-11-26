@@ -36,4 +36,8 @@ export class ShoppingCartService {
     const updatedCart = currentCart.filter((product) => product.productId !== productId);
     this.shoppingCartSubject.next(updatedCart);
   }
+
+  public resetShoppingCart(): void {
+    this.shoppingCartSubject.next([]);
+  }
 }

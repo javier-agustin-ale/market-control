@@ -1,7 +1,15 @@
+.shopping-cart-top {
+  display: flex;
+  justify-content: space-between;
+}
 .title {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 16px;
+}
+.clear-cart-icon {
+  margin-top: 15px;
+  cursor: pointer;
 }
 
 .header-container {
@@ -91,8 +99,6 @@
 
   .discount-text {
     font-weight: 600;
-    //
-    // text-align: center;
   }
 
   .discount-amount {
