@@ -22,4 +22,16 @@ describe('AvailableProductsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should update searchValue', () => {
+    const searchValue = 'Apple';
+    component.onSearchChange(searchValue);
+    expect(component.searchValue).toBe(searchValue);
+  });
+
+  it('should reset searchValue', () => {
+    component.searchValue = 'test';
+    component.clearSearch();
+    expect(component.searchValue).toBe('');
+  });
 });

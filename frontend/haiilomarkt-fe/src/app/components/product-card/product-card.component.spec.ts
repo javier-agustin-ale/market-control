@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductCardComponent } from './product-card.component';
 
-// Mock para isPlatformBrowser
 import { Product } from '../../interfaces/product.interface';
 
 describe('ProductCardComponent', () => {
@@ -50,7 +49,6 @@ describe('ProductCardComponent', () => {
     fixture = TestBed.createComponent(ProductCardComponent);
     component = fixture.componentInstance;
 
-    // Asignamos el input product
     component.product = mockProduct;
 
     fixture.detectChanges();
@@ -76,6 +74,16 @@ describe('ProductCardComponent', () => {
         imageUrl: component.cardImage,
         quantity: 1,
       })
+    );
+  });
+
+  it('should add product selectedProductToEdit', () => {
+    spyOn(component['productManagmentService'], 'selectedProductToEdit');
+
+    component.selectedProductToEdit(mockProduct);
+
+    expect(component['productManagmentService'].selectedProductToEdit).toHaveBeenCalledWith(
+      jasmine.objectContaining(mockProduct)
     );
   });
 });
