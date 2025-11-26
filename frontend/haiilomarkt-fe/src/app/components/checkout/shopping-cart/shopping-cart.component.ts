@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,7 +21,7 @@ import { ShoppingCartService } from '../../../services/shopping-cart-service/sho
   styleUrl: './shopping-cart.component.scss',
   standalone: true,
 })
-export class ShoppingCartComponent implements OnInit {
+export class ShoppingCartComponent implements OnInit, OnDestroy {
   public shoppingCart$: Observable<ShoppingCartProduct[]> = NEVER;
   public totalToPay$: Observable<number> = NEVER;
 
@@ -69,5 +69,11 @@ export class ShoppingCartComponent implements OnInit {
     this.totalToPay$ = this.shoppingCart$.pipe(
       map((products) => products.reduce((acc, p) => acc + this.getPricePerProduct(p), 0))
     );
+  }
+  public clearCart(): void {
+    this.shoppingCartService.resetShoppingCart();
+  }
+  public ngOnDestroy(): void {
+    this.clearCart();
   }
 }
