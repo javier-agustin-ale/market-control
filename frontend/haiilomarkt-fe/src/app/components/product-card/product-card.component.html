@@ -2,6 +2,17 @@
   @if (cardImage) {
   <div class="image-container">
     <img [src]="cardImage" alt="product image" mat-card-md-image />
+    @if (context === 'productsManagment') {
+    <button
+      mat-icon-button
+      color="warn"
+      (click)="openDeleteDialog()"
+      matTooltip="Delete product"
+      class="delete-button"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+    }
   </div>
   }
 
