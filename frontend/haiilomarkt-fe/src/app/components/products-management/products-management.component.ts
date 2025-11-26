@@ -8,13 +8,13 @@ import { AvailableProductsComponent } from '../available-products/available-prod
 import { ProductFormComponent } from './product-form/product-form.component';
 
 @Component({
-  selector: 'app-products-managment',
+  selector: 'app-products-management',
   imports: [CommonModule, AvailableProductsComponent, ProductFormComponent],
-  templateUrl: './products-managment.component.html',
-  styleUrl: './products-managment.component.scss',
+  templateUrl: './products-management.component.html',
+  styleUrl: './products-management.component.scss',
   standalone: true,
 })
-export class ProductsManagmentComponent implements OnInit {
+export class ProductsManagementComponent implements OnInit {
   public productToEdit$: Observable<Product | null> = NEVER;
   public tabContextEnum = TabContextEnum;
 

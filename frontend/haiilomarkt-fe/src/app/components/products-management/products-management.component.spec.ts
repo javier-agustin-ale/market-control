@@ -1,19 +1,19 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductsManagmentComponent } from './products-managment.component';
+import { ProductsManagementComponent } from './products-management.component';
 
 describe('ProductsManagmentComponent', () => {
-  let component: ProductsManagmentComponent;
-  let fixture: ComponentFixture<ProductsManagmentComponent>;
+  let component: ProductsManagementComponent;
+  let fixture: ComponentFixture<ProductsManagementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductsManagmentComponent, HttpClientTestingModule],
+      imports: [ProductsManagementComponent, HttpClientTestingModule],
       providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductsManagmentComponent);
+    fixture = TestBed.createComponent(ProductsManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

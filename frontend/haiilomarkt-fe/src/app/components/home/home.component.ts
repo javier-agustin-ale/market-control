@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CheckoutComponent } from '../checkout/checkout.component';
-import { ProductsManagmentComponent } from '../products-managment/products-managment.component';
+import { ProductsManagementComponent } from '../products-management/products-management.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ import { ProductsManagmentComponent } from '../products-managment/products-manag
     MatCardModule,
     MatTabsModule,
     CheckoutComponent,
-    ProductsManagmentComponent,
+    ProductsManagementComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
