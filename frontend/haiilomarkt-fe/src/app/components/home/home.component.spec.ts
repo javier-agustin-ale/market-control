@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { By } from '@angular/platform-browser';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
@@ -10,7 +12,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeComponent, HttpClientTestingModule],
+      imports: [HomeComponent, HttpClientTestingModule, MatTabsModule],
       providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
@@ -21,5 +23,10 @@ describe('HomeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display <app-checkout> content by default', () => {
+    expect(fixture.debugElement.query(By.css('app-checkout'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('app-products-managment'))).toBeFalsy();
   });
 });
