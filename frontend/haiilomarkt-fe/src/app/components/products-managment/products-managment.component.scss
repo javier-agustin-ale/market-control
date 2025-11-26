@@ -1,0 +1,16 @@
+.products-managment-container {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.available-products-container {
+  width: 65%;
+}
+
+.form-container {
+  width: 35%;
+  border-left: 1px solid rgb(152, 152, 152);
+  padding-left: 15px;
+}

@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SafeUrl } from '@angular/platform-browser';
 import { Product } from '../../interfaces/product.interface';
 import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
+import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
 import { ShoppingCartService } from '../../services/shopping-cart-service/shopping-cart-service';
 
 @Component({
@@ -24,6 +25,7 @@ export class ProductCardComponent implements OnInit {
 
   constructor(
     private shoppingCartService: ShoppingCartService,
+    private productManagmentService: ProductManagmentService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -38,6 +40,10 @@ export class ProductCardComponent implements OnInit {
       imageUrl: this.cardImage,
     };
     this.shoppingCartService.addProductToCart(productToAdd);
+  }
+
+  public selectedProductToEdit(product: Product): void {
+    this.productManagmentService.selectedProductToEdit(product);
   }
 
   private convertImage(): void {

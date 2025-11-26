@@ -1,0 +1,65 @@
+<h2 class="title">{{!productToEdit ? 'Create New Product' : `Editing ${productToEdit.name}`}}</h2>
+
+<form [formGroup]="formProduct" (ngSubmit)="onSubmit(!productToEdit)">
+  <div class="form-field-container">
+    <mat-form-field appearance="fill" [class.mat-form-field-invalid]="isControlInvalid('name')">
+      <mat-label>Product Name</mat-label>
+      <input matInput formControlName="name" />
+      @if (isControlInvalid('name')) {
+      <mat-error>Field required.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      [class.mat-form-field-invalid]="isControlInvalid('unitPrice')"
+    >
+      <mat-label>Unit Price</mat-label>
+      <input matInput type="number" formControlName="unitPrice" />
+      @if (isControlInvalid('unitPrice')) {
+      <mat-error>Unit Price must be a number higher than 0</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="image-container">
+    <button matButton="outlined" color="primary" type="button" (click)="fileInput.click()">
+      Upload Image
+    </button>
+    <span class="file-name">{{ getFileName() }}</span>
+    <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+  </div>
+
+  <mat-checkbox class="contains-offer" formControlName="containsOffer">
+    Contains Offer
+  </mat-checkbox>
+
+  @if(formProduct.get('containsOffer')?.value) {
+  <div class="form-field-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Offer Amount</mat-label>
+      <input matInput type="number" formControlName="offerAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Offer Price</mat-label>
+      <input matInput type="number" formControlName="offerPrice" />
+    </mat-form-field>
+  </div>
+  }
+
+  <div class="button-container">
+    <button
+      mat-button
+      type="button"
+      color="primary"
+      (click)="clearForm()"
+      [disabled]="formProduct.untouched && formProduct.invalid"
+    >
+      Clear Form
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formProduct.invalid">
+      Save
+    </button>
+  </div>
+</form>

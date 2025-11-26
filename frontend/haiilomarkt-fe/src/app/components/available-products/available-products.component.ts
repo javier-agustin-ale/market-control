@@ -24,7 +24,6 @@ import { ProductCardComponent } from '../product-card/product-card.component';
   templateUrl: './available-products.component.html',
   styleUrl: './available-products.component.scss',
   standalone: true,
-  providers: [ProductService],
 })
 export class AvailableProductsComponent {
   @Input() context!: 'checkout' | 'productsManagment';

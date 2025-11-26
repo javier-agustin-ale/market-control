@@ -1,0 +1,8 @@
+<div class="products-managment-container">
+  <div class="available-products-container">
+    <app-available-products [context]="'productsManagment'"></app-available-products>
+  </div>
+  <div class="form-container">
+    <app-product-form [productToEdit]="productToEdit$ | async"></app-product-form>
+  </div>
+</div>
