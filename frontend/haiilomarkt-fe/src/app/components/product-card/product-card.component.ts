@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SafeUrl } from '@angular/platform-browser';
-import { catchError, Subscription, throwError } from 'rxjs';
+import { catchError, of, Subscription, switchMap, throwError } from 'rxjs';
 import { TabContextEnum } from '../../enums/tab-context.enum';
 import { Product } from '../../interfaces/product.interface';
 import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
@@ -62,20 +62,23 @@ export class ProductCardComponent implements OnInit, OnDestroy {
       data: this.product.name,
     });
 
-    this.dialogRefSubscription = dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.productService
-          .deleteProduct(this.product.productId)
-          .pipe(
-            catchError(() => {
-              return throwError(
-                () => new Error('Failed to delete product. Please try again later.')
-              );
-            })
-          )
-          .subscribe();
-      }
-    });
+    this.dialogRefSubscription = dialogRef
+      .afterClosed()
+      .pipe(
+        switchMap((result) => {
+          if (result) {
+            return this.productService.deleteProduct(this.product.productId).pipe(
+              catchError(() => {
+                return throwError(
+                  () => new Error('Failed to delete product. Please try again later.')
+                );
+              })
+            );
+          }
+          return of(void 0);
+        })
+      )
+      .subscribe();
   }
 
   private convertImage(): void {
