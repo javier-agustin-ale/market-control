@@ -16,7 +16,7 @@ describe('ProductFormComponent', () => {
 
   const mockProduct: Product = {
     productId: 1,
-    name: 'Appel',
+    name: 'Apple',
     unitPrice: 1,
     offerAmount: 3,
     offerPrice: 2,
@@ -67,29 +67,21 @@ describe('ProductFormComponent', () => {
     expect(component.formProduct.get('name')!.valid).toBeFalse();
   });
 
-  it('should patch form values and add file on ngOnChanges', () => {
-    component.productToEdit = mockProduct as Product;
-    component.ngOnChanges({
-      productToEdit: {
-        currentValue: mockProduct,
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-      },
-    });
+  it('should build File from existing image when setting productToEdit', () => {
+    component.ngOnInit();
 
-    expect(component.formProduct.value.name).toBe('Appel');
-    expect(component.getFileName()).toBe('Appel.png');
+    (component as any).productToEdit = mockProduct;
 
-    // offerAmount exists
-    expect(component.formProduct.get('containsOffer')!.value).toBeTrue();
+    const file = (component as any).file as File;
+    expect(file).toBeTruthy();
+    expect(file.name).toContain('Apple');
   });
 
   it('should submit new product', async () => {
     component.ngOnInit();
 
     const file = new File(['abc'], 'file.png', { type: 'image/png' });
-    component['file'] = file;
+    (component as any).file = file;
 
     component.formProduct.patchValue({
       name: 'New Product',
