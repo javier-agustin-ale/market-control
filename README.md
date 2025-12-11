@@ -12,7 +12,7 @@ Project Structure:
 
 We have two folders (backend and frontend/haiilomarkt-fe). 
 
-* Frontend/haiilomarkt-fe contains a project built with **Angular 20** , **Angular Material** & **RxJS**
+* Frontend/market-control contains a project built with **Angular 20** , **Angular Material** & **RxJS**
 
 * Backend contains a RESTful API built with **Node.js**, **Express**, and **Sequelize ORM**, using **SQLite** as the database.
 
