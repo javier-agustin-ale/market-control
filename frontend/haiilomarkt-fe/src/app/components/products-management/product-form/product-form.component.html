@@ -24,10 +24,13 @@
 
   <div class="image-container">
     <button matButton="outlined" color="primary" type="button" (click)="fileInput.click()">
-      Upload Image
+      Upload Image *
     </button>
     <span class="file-name">{{ getFileName() }}</span>
     <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+    @if(!file && formProduct.valid ) {
+    <p class="no-image">An image of the product is required.</p>
+    }
   </div>
 
   <mat-checkbox class="contains-offer" formControlName="containsOffer">
@@ -58,7 +61,12 @@
     >
       Clear Form
     </button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="formProduct.invalid">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="formProduct.invalid || !file"
+    >
       Save
     </button>
   </div>
