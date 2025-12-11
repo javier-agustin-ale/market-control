@@ -45,7 +45,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   public formProduct!: FormGroup;
   public containsOffer = false;
 
-  private file: File | null = null;
+  public file: File | null = null;
   private containsOfferSubscription!: Subscription;
 
   private productService = inject(ProductService);
