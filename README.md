@@ -21,12 +21,12 @@ We have two folders (backend and frontend/haiilomarkt-fe).
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/javier-agustin-ale/haiilomarkt.git
+    https://github.com/javier-agustin-ale/market-control.git
 
 ## FRONTEND 
 1. **Navigate to  folder
   ```bash
-   cd frontend/haiilomarkt-fe
+   cd frontend/market-control
 ```
 2. **Install dependencies**
    ```bash
