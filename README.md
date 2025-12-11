@@ -54,7 +54,7 @@ We have two folders (backend and frontend/haiilomarkt-fe).
      ```bash
       PORT=3000
       DB_DIALECT=sqlite
-      DB_STORAGE=./data/haiilomarkt.sqlite 
+      DB_STORAGE=./data/market.sqlite 
 
 4. **Run the project**
      ```bash
