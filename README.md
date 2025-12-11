@@ -1,4 +1,4 @@
-## HaiiloMarkt
+## Market Control
 
 This project code is for a supermarket checkout that calculates the total price of several products. 
 
