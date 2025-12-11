@@ -2,13 +2,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import sequelize from './config.js';
-import haiilomarktRoutes from './routes/haiilomarktRoutes.js';
+import marketControlRoutes from './routes/marketControlRoutes.js';
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use('/api/', haiilomarktRoutes);
+app.use('/api/', marketControlRoutes);
 
 const PORT = process.env.APP_PORT || 3000;
 
