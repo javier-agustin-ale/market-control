@@ -27,3 +27,9 @@
   display: flex;
   justify-content: end;
 }
+
+.input-form {
+  ::ng-deep .mdc-text-field--outlined {
+    background-color: #0d2b29;
+  }
+}
