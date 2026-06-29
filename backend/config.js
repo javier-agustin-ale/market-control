@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
 		host: process.env.DB_HOST,
 		port: process.env.DB_PORT,
 		dialect,
-		storage: dialect === 'sqlite' ? process.env.DB_STORAGE : undefined,
+		storage: dialect === 'sqlite' ? (process.env.DB_STORAGE || './database.sqlite') : undefined,
 		logging: false,
 	}
 );
