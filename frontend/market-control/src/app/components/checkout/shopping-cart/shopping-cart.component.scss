@@ -65,7 +65,8 @@
 
 .unit-price {
   font-size: 13px;
-  opacity: 0.6;
+  opacity: 0.8;
+  color: #a4c9c9;
 }
 
 .quantity-container {
@@ -93,16 +94,17 @@
 .discount-row {
   display: flex;
   justify-content: space-between;
-  background: #e6ffe6;
+  background: rgba(46, 125, 50, 0.2);
   padding: 7px;
   border-radius: 10px;
 
   .discount-text {
     font-weight: 600;
+    color: #81c784;
   }
 
   .discount-amount {
-    color: #008000;
+    color: #81c784;
     font-weight: 700;
     padding-right: 15px;
   }
