@@ -4,7 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CheckoutComponent } from '../checkout/checkout.component';
 import { ProductsManagementComponent } from '../products-management/products-management.component';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 @Component({
   selector: 'app-home',
   imports: [
@@ -13,6 +14,8 @@ import { ProductsManagementComponent } from '../products-management/products-man
     MatTabsModule,
     CheckoutComponent,
     ProductsManagementComponent,
+    MatButtonModule,
+    MatMenuModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
