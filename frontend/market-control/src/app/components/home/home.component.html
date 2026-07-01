@@ -21,8 +21,11 @@
         @if (profileUser$ | async; as profileUser) {
           @if (profileUser === profileUserEnum.Admin) {
             <mat-tab label="Products Management">
-              <ng-template matTabContent>
+              <!-- <ng-template matTabContent>
                 <app-products-management></app-products-management>
+              </ng-template> -->
+              <ng-template matTabContent>
+                <app-log-in></app-log-in>
               </ng-template>
             </mat-tab>
           }
