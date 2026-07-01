@@ -3,13 +3,13 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CheckoutComponent } from '../checkout/checkout.component';
-import { ProductsManagementComponent } from '../products-management/products-management.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { ProfileService } from '../../services/profile-service/profile.service';
 import { ProfileUserEnum } from '../../enums/profile-user.enum';
 import { ProfileUserType } from '../../types/profile-user.type';
 import { NEVER, Observable } from 'rxjs';
+import { LogInComponent } from '../log-in/log-in.component';
 
 @Component({
   selector: 'app-home',
@@ -18,9 +18,9 @@ import { NEVER, Observable } from 'rxjs';
     MatCardModule,
     MatTabsModule,
     CheckoutComponent,
-    ProductsManagementComponent,
     MatButtonModule,
     MatMenuModule,
+    LogInComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
