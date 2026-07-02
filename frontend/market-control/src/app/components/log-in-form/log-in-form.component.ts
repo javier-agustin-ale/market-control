@@ -56,12 +56,8 @@ export class LogInFormComponent {
       password: this.loginForm.value.password || '',
     };
     this.authService.logIn(form).subscribe({
-      next: () => {
-        this.dialogRef.close(true);
-      },
-      error: (error) => {
-        throw error;
-      },
+      next: () => this.dialogRef.close(true),
+      error: () => {},
     });
   }
 }
