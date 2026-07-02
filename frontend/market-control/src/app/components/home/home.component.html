@@ -2,11 +2,7 @@
   <div class="header">
     <h1 class="title">{{ 'Market Control' | uppercase }}</h1>
     <div>
-      <button matButton [matMenuTriggerFor]="profile">Profile</button>
-      <mat-menu #profile="matMenu">
-        <button mat-menu-item (click)="changeProfile(profileUserEnum.Client)">Client</button>
-        <button mat-menu-item (click)="changeProfile(profileUserEnum.Admin)">Admin</button>
-      </mat-menu>
+      <button matButton (click)="adminLogIn()">Admin</button>
     </div>
   </div>
 
@@ -21,11 +17,8 @@
         @if (profileUser$ | async; as profileUser) {
           @if (profileUser === profileUserEnum.Admin) {
             <mat-tab label="Products Management">
-              <!-- <ng-template matTabContent>
-                <app-products-management></app-products-management>
-              </ng-template> -->
               <ng-template matTabContent>
-                <app-log-in></app-log-in>
+                <app-products-management></app-products-management>
               </ng-template>
             </mat-tab>
           }

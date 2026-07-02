@@ -59,3 +59,28 @@ body {
   background-color: rgba(255, 255, 255, 0.12) !important;
   color: rgba(255, 255, 255, 0.38) !important;
 }
+
+.login-dialog-backdrop {
+  background: rgba(3, 18, 20, 0.54);
+  backdrop-filter: blur(3px);
+}
+
+.login-dialog-panel {
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: transparent;
+    --mat-dialog-container-small-max-width: 92vw;
+
+    .mdc-dialog__surface {
+      overflow: visible;
+      border-radius: 8px;
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .mat-mdc-dialog-content {
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+  }
+}
