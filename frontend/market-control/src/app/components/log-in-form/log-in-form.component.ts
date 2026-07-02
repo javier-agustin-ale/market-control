@@ -3,12 +3,15 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { UserLogIn } from '../../interfaces/Auth/user-log-in.interface';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
-  selector: 'app-log-in',
+  selector: 'app-log-in-form',
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
@@ -17,14 +20,18 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatDialogContent,
+    MatDialogClose,
   ],
-  templateUrl: './log-in.component.html',
-  styleUrl: './log-in.component.scss',
+  templateUrl: './log-in-form.component.html',
+  styleUrl: './log-in-form.component.scss',
   standalone: true,
 })
-export class LogInComponent {
+export class LogInFormComponent {
   public hidePassword = true;
 
+  private authService = inject(AuthService);
+  private dialogRef = inject(MatDialogRef<LogInFormComponent>);
   private fb = inject(FormBuilder);
 
   public loginForm = this.fb.group({
@@ -43,5 +50,18 @@ export class LogInComponent {
       this.loginForm.markAllAsTouched();
       return;
     }
+
+    const form: UserLogIn = {
+      email: this.loginForm.value.email || '',
+      password: this.loginForm.value.password || '',
+    };
+    this.authService.logIn(form).subscribe({
+      next: () => {
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        throw error;
+      },
+    });
   }
 }

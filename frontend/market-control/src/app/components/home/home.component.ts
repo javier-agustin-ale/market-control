@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Inject, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { CheckoutComponent } from '../checkout/checkout.component';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-import { ProfileService } from '../../services/profile-service/profile.service';
-import { ProfileUserEnum } from '../../enums/profile-user.enum';
-import { ProfileUserType } from '../../types/profile-user.type';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NEVER, Observable } from 'rxjs';
-import { LogInComponent } from '../log-in/log-in.component';
+import { ProfileUserEnum } from '../../enums/profile-user.enum';
+import { ProfileService } from '../../services/profile-service/profile.service';
+import { ProfileUserType } from '../../types/profile-user.type';
+import { CheckoutComponent } from '../checkout/checkout.component';
+import { LogInFormComponent } from '../log-in-form/log-in-form.component';
+import { ProductsManagementComponent } from '../products-management/products-management.component';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +22,7 @@ import { LogInComponent } from '../log-in/log-in.component';
     CheckoutComponent,
     MatButtonModule,
     MatMenuModule,
-    LogInComponent,
+    ProductsManagementComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -30,13 +32,25 @@ export class HomeComponent implements OnInit {
   public profileUser$: Observable<ProfileUserType> = NEVER;
   public profileUserEnum = ProfileUserEnum;
   private profileService = inject(ProfileService);
+  private readonly dialog = inject(MatDialog);
 
   public ngOnInit(): void {
     this.defineStreams();
   }
 
-  public changeProfile(profile: ProfileUserType) {
-    this.profileService.changeProfileUser(profile);
+  public adminLogIn() {
+    const dialogRef = this.dialog.open(LogInFormComponent, {
+      autoFocus: 'first-tabbable',
+      backdropClass: 'login-dialog-backdrop',
+      panelClass: 'login-dialog-panel',
+      width: 'min(92vw, 460px)',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.profileService.changeProfileUser(ProfileUserEnum.Admin);
+      }
+    });
   }
 
   private defineStreams() {
