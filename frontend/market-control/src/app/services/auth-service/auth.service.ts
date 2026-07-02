@@ -18,15 +18,17 @@ export class AuthService {
   ) {}
 
   public logIn(logInData: UserLogIn): Observable<Auth> {
-    return this.httpClient.post<Auth>(`${this.apiUrl}/auth/login`, logInData).pipe(
-      catchError((error: HttpErrorResponse) => {
-        this.notificationService.showNotification({
-          message: error.error.message || 'Log in failed.',
-          action: 'Close',
-          duration: 4000,
-        });
-        return throwError(() => error);
-      }),
-    );
+    return this.httpClient
+      .post<Auth>(`${this.apiUrl}/auth/login`, logInData, { withCredentials: true })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.notificationService.showNotification({
+            message: error.error.message || 'Log in failed.',
+            action: 'Close',
+            duration: 4000,
+          });
+          return throwError(() => error);
+        }),
+      );
   }
 }

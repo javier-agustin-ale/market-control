@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NEVER, Observable } from 'rxjs';
+import { map, NEVER, Observable } from 'rxjs';
 import { ProfileUserEnum } from '../../enums/profile-user.enum';
 import { ProfileService } from '../../services/profile-service/profile.service';
 import { ProfileUserType } from '../../types/profile-user.type';
@@ -30,6 +30,7 @@ import { ProductsManagementComponent } from '../products-management/products-man
 })
 export class HomeComponent implements OnInit {
   public profileUser$: Observable<ProfileUserType> = NEVER;
+  public selectedTabIndex$: Observable<number> = NEVER;
   public profileUserEnum = ProfileUserEnum;
   private profileService = inject(ProfileService);
   private readonly dialog = inject(MatDialog);
@@ -55,5 +56,8 @@ export class HomeComponent implements OnInit {
 
   private defineStreams() {
     this.profileUser$ = this.profileService.profileUser$;
+    this.selectedTabIndex$ = this.profileUser$.pipe(
+      map((profileUser) => (profileUser === this.profileUserEnum.Admin ? 1 : 0)),
+    );
   }
 }
