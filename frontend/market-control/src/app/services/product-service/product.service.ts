@@ -14,47 +14,58 @@ export class ProductService {
 
   private apiUrl: string = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient, private notificationService: NotificationService) {
+  constructor(
+    private httpClient: HttpClient,
+    private notificationService: NotificationService,
+  ) {
     this.getProducts();
   }
 
   public addNewProduct(newProductData: FormData): Observable<Product> {
-    return this.httpClient.post<Product>(this.apiUrl, newProductData).pipe(
-      catchError((error: HttpErrorResponse) => {
-        this.notificationService.showNotification({
-          message: 'Failed to add new product.',
-          action: 'Close',
-        });
-        return throwError(() => error);
-      }),
-      tap(() => this.getProducts())
-    );
+    return this.httpClient
+      .post<Product>(this.apiUrl, newProductData, { withCredentials: true })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.notificationService.showNotification({
+            message: 'Failed to add new product.',
+            action: 'Close',
+          });
+          return throwError(() => error);
+        }),
+        tap(() => this.getProducts()),
+      );
   }
 
   public deleteProduct(productId: number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/${productId}`).pipe(
-      catchError((error: HttpErrorResponse) => {
-        this.notificationService.showNotification({
-          message: 'Failed to delete product.',
-          action: 'Close',
-        });
-        return throwError(() => error);
-      }),
-      tap(() => this.getProducts())
-    );
+    return this.httpClient
+      .delete<void>(`${this.apiUrl}/${productId}`, { withCredentials: true })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.notificationService.showNotification({
+            message: 'Failed to delete product.',
+            action: 'Close',
+          });
+          return throwError(() => error);
+        }),
+        tap(() => this.getProducts()),
+      );
   }
 
   public updateProduct(productId: number, product: FormData): Observable<Product> {
-    return this.httpClient.put<Product>(`${this.apiUrl}/${productId}`, product).pipe(
-      catchError((error: HttpErrorResponse) => {
-        this.notificationService.showNotification({
-          message: 'Failed to update product.',
-          action: 'Close',
-        });
-        return throwError(() => error);
-      }),
-      tap(() => this.getProducts())
-    );
+    return this.httpClient
+      .put<Product>(`${this.apiUrl}/${productId}`, product, {
+        withCredentials: true,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.notificationService.showNotification({
+            message: 'Failed to update product.',
+            action: 'Close',
+          });
+          return throwError(() => error);
+        }),
+        tap(() => this.getProducts()),
+      );
   }
 
   private getProducts(): void {
@@ -69,7 +80,7 @@ export class ProductService {
             duration: 5000,
           });
           return throwError(() => error);
-        })
+        }),
       )
       .subscribe((products) => this.productListSubject.next(products));
   }
