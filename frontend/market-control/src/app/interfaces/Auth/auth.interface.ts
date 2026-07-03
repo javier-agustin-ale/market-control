@@ -1,14 +1,6 @@
-import { ProfileUserType } from '../../types/profile-user.type';
+import { UserData } from './user-data.interface';
 
 export interface Auth {
   message: string;
-  token: string;
-  user: User;
-}
-
-interface User {
-  userId: number;
-  username: string;
-  email: string;
-  role: ProfileUserType;
+  user: UserData;
 }
