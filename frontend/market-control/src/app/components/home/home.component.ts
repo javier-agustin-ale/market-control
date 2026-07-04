@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { map, NEVER, Observable } from 'rxjs';
+import { NEVER, Observable, take } from 'rxjs';
 import { ProfileUserEnum } from '../../enums/profile-user.enum';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { ProfileService } from '../../services/profile-service/profile.service';
@@ -31,7 +31,6 @@ import { ProductsManagementComponent } from '../products-management/products-man
 })
 export class HomeComponent implements OnInit {
   public profileUser$: Observable<ProfileUserType> = NEVER;
-  public selectedTabIndex$: Observable<number> = NEVER;
   public profileUserEnum = ProfileUserEnum;
   private profileService = inject(ProfileService);
   private authService = inject(AuthService);
@@ -39,9 +38,10 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.defineStreams();
+    this.checkUserSession();
   }
 
-  public adminLogIn() {
+  public adminLogIn(): void {
     const dialogRef = this.dialog.open(LogInFormComponent, {
       autoFocus: 'first-tabbable',
       backdropClass: 'login-dialog-backdrop',
@@ -56,16 +56,23 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public adminLogOut() {
+  public adminLogOut(): void {
     this.authService.logOut().subscribe((res) => {
       this.profileService.changeProfileUser(ProfileUserEnum.Client);
     });
   }
 
-  private defineStreams() {
+  private defineStreams(): void {
     this.profileUser$ = this.profileService.profileUser$;
-    this.selectedTabIndex$ = this.profileUser$.pipe(
-      map((profileUser) => (profileUser === this.profileUserEnum.Admin ? 1 : 0)),
-    );
+  }
+  private checkUserSession(): void {
+    this.authService
+      .isAuthenticated()
+      .pipe(take(1))
+      .subscribe({
+        next: (isAuthenticated) => {
+          if (isAuthenticated) this.profileService.changeProfileUser(ProfileUserEnum.Admin);
+        },
+      });
   }
 }
