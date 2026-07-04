@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { map, NEVER, Observable } from 'rxjs';
 import { ProfileUserEnum } from '../../enums/profile-user.enum';
+import { AuthService } from '../../services/auth-service/auth.service';
 import { ProfileService } from '../../services/profile-service/profile.service';
 import { ProfileUserType } from '../../types/profile-user.type';
 import { CheckoutComponent } from '../checkout/checkout.component';
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
   public selectedTabIndex$: Observable<number> = NEVER;
   public profileUserEnum = ProfileUserEnum;
   private profileService = inject(ProfileService);
+  private authService = inject(AuthService);
   private readonly dialog = inject(MatDialog);
 
   public ngOnInit(): void {
@@ -51,6 +53,12 @@ export class HomeComponent implements OnInit {
       if (result) {
         this.profileService.changeProfileUser(ProfileUserEnum.Admin);
       }
+    });
+  }
+
+  public adminLogOut() {
+    this.authService.logOut().subscribe((res) => {
+      this.profileService.changeProfileUser(ProfileUserEnum.Client);
     });
   }
 
