@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { LogInFormComponent } from './log-in-form.component';
 
 describe('LogInFormComponent', () => {
@@ -8,7 +11,8 @@ describe('LogInFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LogInFormComponent],
+      imports: [LogInFormComponent, HttpClientTestingModule],
+      providers: [provideZonelessChangeDetection(), { provide: MatDialogRef, useValue: {} }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LogInFormComponent);

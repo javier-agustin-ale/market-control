@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "haiilomarkt-fe": {
+    "market-control": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -70,10 +70,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "haiilomarkt-fe:build:production"
+              "buildTarget": "market-control:build:production"
             },
             "development": {
-              "buildTarget": "haiilomarkt-fe:build:development"
+              "buildTarget": "market-control:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -1,5 +1,5 @@
 {
-  "name": "haiilomarkt-fe",
+  "name": "market-control",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:haiilomarkt-fe": "node dist/haiilomarkt-fe/server/server.mjs"
+    "serve:ssr:market-control": "node dist/market-control/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
