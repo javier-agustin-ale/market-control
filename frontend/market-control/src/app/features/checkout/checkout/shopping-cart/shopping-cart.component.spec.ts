@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
-import { ShoppingCartProduct } from '../../../interfaces/shopping-cart-product.interface';
+import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
 import { ShoppingCartComponent } from './shopping-cart.component';
 
 describe('ShoppingCartComponent', () => {

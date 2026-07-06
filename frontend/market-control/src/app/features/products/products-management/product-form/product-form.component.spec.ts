@@ -3,9 +3,9 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { firstValueFrom, of } from 'rxjs';
-import { Product } from '../../../interfaces/product.interface';
-import { ProductManagmentService } from '../../../services/product-managment-service/product-managment.service';
-import { ProductService } from '../../../services/product-service/product.service';
+import { Product } from '../../interfaces/product.interface';
+import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
+import { ProductService } from '../../services/product-service/product.service';
 import { ProductFormComponent } from './product-form.component';
 
 describe('ProductFormComponent', () => {

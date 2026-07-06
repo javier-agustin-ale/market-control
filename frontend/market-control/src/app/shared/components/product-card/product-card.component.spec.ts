@@ -6,9 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Product } from '../../../features/products/interfaces/product.interface';
 import { ProductCardComponent } from './product-card.component';
-
-import { Product } from '../../interfaces/product.interface';
 
 describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
@@ -73,7 +72,7 @@ describe('ProductCardComponent', () => {
         productId: mockProduct.productId,
         imageUrl: component.cardImage,
         quantity: 1,
-      })
+      }),
     );
   });
 
@@ -83,7 +82,7 @@ describe('ProductCardComponent', () => {
     component.selectedProductToEdit(mockProduct);
 
     expect(component['productManagmentService'].selectedProductToEdit).toHaveBeenCalledWith(
-      jasmine.objectContaining(mockProduct)
+      jasmine.objectContaining(mockProduct),
     );
   });
 });
