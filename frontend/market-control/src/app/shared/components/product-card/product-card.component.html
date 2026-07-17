@@ -2,6 +2,7 @@
   @if (cardImage) {
     <div class="image-container">
       <img [src]="cardImage" alt="product image" mat-card-md-image />
+
       @if (tabContext === tabContextEnum.ProductsManagement) {
         <button
           mat-icon-button
@@ -14,6 +15,20 @@
         </button>
       }
     </div>
+  } @else {
+    @if (tabContext === tabContextEnum.ProductsManagement) {
+      <div class="image-container no-image">
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="openDeleteDialog()"
+          matTooltip="Delete product"
+          class="delete-button"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
   }
 
   <mat-card-content>
@@ -32,6 +47,7 @@
         </button>
       }
     </div>
+
     <p class="subtitle">
       Unit Price: <b>{{ product.unitPrice | currency: 'EUR' }}</b>
     </p>

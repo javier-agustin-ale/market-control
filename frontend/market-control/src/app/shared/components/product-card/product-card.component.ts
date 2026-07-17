@@ -50,6 +50,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
       quantity: 1,
       imageUrl: this.cardImage,
     };
+
     this.shoppingCartService.addProductToCart(productToAdd);
   }
 
@@ -75,6 +76,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
               }),
             );
           }
+
           return of(void 0);
         }),
       )
@@ -82,7 +84,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   }
 
   private convertImage(): void {
-    const data = this.product.image.data;
+    const data = this.product.image?.data;
 
     if (!isPlatformBrowser(this.platformId) || !data) {
       this.cardImage = null;
@@ -90,7 +92,15 @@ export class ProductCardComponent implements OnInit, OnDestroy {
     }
 
     const bytes = new Uint8Array(data);
-    const binary = String.fromCharCode(...bytes);
+
+    let binary = '';
+    const chunkSize = 8192;
+
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      const chunk = bytes.subarray(i, i + chunkSize);
+      binary += String.fromCharCode(...chunk);
+    }
+
     const base64 = btoa(binary);
 
     this.cardImage = `data:image/jpeg;base64,${base64}`;
