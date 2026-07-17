@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError, timer } from 'rxjs';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { NotificationService } from '../../services/notification-service/notification.service';
 import { AuthUserLogIn } from '../interfaces/auth-user-log-in.interface';
 import { AuthUser } from '../interfaces/auth-user.interface';
