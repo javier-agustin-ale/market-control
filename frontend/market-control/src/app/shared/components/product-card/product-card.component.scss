@@ -20,6 +20,13 @@
   border-radius: 5px;
 }
 
+.no-image {
+  height: 120px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
 .delete-button {
   position: absolute;
   top: 8px;
