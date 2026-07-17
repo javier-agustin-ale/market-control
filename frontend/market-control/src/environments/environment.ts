@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  apiUrl: '/api',
+  production: true,
+  apiUrl: 'https://market-control-api-tn0q.onrender.com/api',
 };
