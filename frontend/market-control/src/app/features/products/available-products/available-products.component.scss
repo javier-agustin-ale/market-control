@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .header-container {
   padding: 5px 0;
   display: flex;
@@ -11,9 +16,9 @@
 }
 .product-card-container {
   display: grid;
-  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   column-gap: 15px;
-  row-gap: 15px;
+  row-gap: 10px;
   box-sizing: border-box;
   overflow: auto;
   max-height: 630px;
