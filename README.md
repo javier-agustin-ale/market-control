@@ -1,409 +1,829 @@
 # Market Control 🛒
 
-> A full-stack supermarket checkout system demonstrating end-to-end development skills
+> A full-stack supermarket checkout system built with **Angular 20**, **Node.js**, **Express**, and **SQLite**.
 
-A comprehensive point-of-sale (POS) application that manages product pricing, special offers, and shopping cart calculations. This project showcases modern full-stack development practices with a type-safe frontend and a robust RESTful API backend.
+Market Control is a full-stack web application that simulates the checkout process of a supermarket while providing an administration panel to manage the entire product catalogue.
 
-[![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat&logo=angular&logoColor=white)](https://angular.io/)
-[![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+The application automatically calculates the total cost of a shopping cart by applying the best available offers, while authenticated administrators can create, update and remove products, upload product images, and configure promotional pricing.
 
----
+This project was originally created as a coding challenge and later evolved into a production-ready portfolio project showcasing frontend architecture, backend development, authentication, REST APIs, database persistence, deployment, and clean software design.
 
-## 📋 Overview
+<p align="center">
 
-Market Control is a full-stack checkout system that calculates the total price of products while automatically applying special offers and discounts. The system features a clean separation between frontend and backend, demonstrating proper API design, state management, and database operations.
+[![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-### Business Logic Example
-
-**Product Pricing with Special Offers:**
-- Apple unit price: $2
-- Special Offer: 2 for $3
-- Cart with 4 apples → 2 offers applied → Total: $6
-
-The system intelligently calculates the optimal combination of special offers to minimize customer cost.
+</p>
 
 ---
 
-## ✨ Key Features
+# 🌍 Live Demo
 
-### Customer-Facing Features
-- **🛍️ Shopping Cart**: Add, remove, and update product quantities in real-time
-- **💰 Smart Pricing**: Automatic calculation of best prices with special offers
-- **📊 Live Total**: Dynamic price updates as items are added/removed
-- **🎯 Offer Visualization**: Clear display of active discounts and savings
+### Frontend
 
-### Management Features
-- **📦 Product Management**: Full CRUD operations for product catalog
-- **🏷️ Special Offers**: Create and manage promotional pricing rules
-- **💵 Price Updates**: Real-time price modifications without system restart
-- **📈 Offer Stacking**: Support for multiple offers on the same product
+https://market-control-l2ke.onrender.com/
+
+### Backend API
+
+https://market-control-api-tn0q.onrender.com/api
 
 ---
 
-## 🏗️ Full-Stack Architecture
+# 📋 Overview
 
-This project demonstrates a complete separation of concerns with independent frontend and backend systems communicating via RESTful API.
+The application consists of two different experiences.
 
-### Architecture Overview
+## 🛒 Customer Checkout
+
+Customers can browse the available products, add them to a shopping cart and instantly obtain the final price.
+
+The checkout engine automatically applies promotional offers without requiring any manual calculations from the user.
+
+For example:
+
+| Product | Unit Price | Offer |
+|---------|-----------:|------|
+| Apple | $2.00 | 2 for $3.00 |
+
+If the customer purchases **4 Apples**, the application calculates:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     FRONTEND (Angular 20)                    │
-│  ┌────────────────┐  ┌──────────────┐  ┌─────────────────┐ │
-│  │   Components   │  │   Services   │  │  State (RxJS)   │ │
-│  │  - Cart View   │  │  - Product   │  │  - Observable   │ │
-│  │  - Products    │  │  - HTTP      │  │  - BehaviorSub  │ │
-│  │  - Management  │  │  - Cart      │  │  - Async Pipe   │ │
-│  └────────────────┘  └──────────────┘  └─────────────────┘ │
-└───────────────────────────┬─────────────────────────────────┘
-                            │ HTTP/REST
-                            │ (JSON)
-┌───────────────────────────▼─────────────────────────────────┐
-│                    BACKEND (Node.js/Express)                 │
-│  ┌────────────────┐  ┌──────────────┐  ┌─────────────────┐ │
-│  │   REST API     │  │  Business    │  │   Data Layer    │ │
-│  │  - Routes      │  │  - Pricing   │  │  - Sequelize    │ │
-│  │  - Middleware  │  │  - Offers    │  │  - Models       │ │
-│  │  - Validation  │  │  - Cart      │  │  - Migrations   │ │
-│  └────────────────┘  └──────────────┘  └─────────────────┘ │
-└───────────────────────────┬─────────────────────────────────┘
-                            │ ORM
-                            │
-                    ┌───────▼────────┐
-                    │ SQLite Database│
-                    │  - Products    │
-                    │  - Offers      │
-                    │  - Prices      │
-                    └────────────────┘
+2 for $3
+2 for $3
+
+Total = $6
+```
+
+instead of
+
+```
+4 × $2 = $8
+```
+
+The algorithm always applies the combination of offers that produces the lowest possible price for the customer.
+
+---
+
+## 👨‍💼 Administration Panel
+
+Administrators can log into the application and manage every product displayed in the checkout.
+
+The management panel allows administrators to:
+
+- Create new products
+- Update existing products
+- Delete products
+- Upload product images
+- Configure prices
+- Configure promotional offers
+
+The administration area shares the same backend API used by the checkout, making the application behave like a real production system.
+
+---
+
+# ✨ Features
+
+## 🛒 Checkout
+
+- Browse products
+- Add products to cart
+- Update quantities
+- Remove products
+- Live cart updates
+- Automatic total calculation
+- Smart promotional pricing
+- Real-time offer calculation
+
+---
+
+## 📦 Product Management
+
+- Create products
+- Edit products
+- Delete products
+- Upload product images
+- Display uploaded images
+- Handle missing images gracefully
+
+---
+
+## 🔐 Authentication
+
+- User registration
+- Login
+- Logout
+- JWT authentication
+- Protected backend endpoints
+- Administrator access to product management
+
+---
+
+## 🎨 Frontend
+
+Built with Angular 20 using a feature-based architecture.
+
+Highlights include:
+
+- Standalone Components
+- Angular Material
+- Reactive Forms
+- RxJS
+- TypeScript
+- SCSS
+- Responsive UI
+- Service-based data layer
+
+---
+
+## ⚙ Backend
+
+The backend exposes a REST API responsible for:
+
+- Authentication
+- Product management
+- Image uploads
+- Business logic
+- Database persistence
+
+---
+
+# 🏗 Architecture
+
+The project follows a classic three-layer architecture with a complete separation between presentation, business logic and persistence.
+
+```
+                    ┌──────────────────────┐
+                    │      Angular 20      │
+                    │      Frontend        │
+                    └──────────┬───────────┘
+                               │
+                          HTTP / REST
+                               │
+                    JSON Requests/Responses
+                               │
+                    ┌──────────▼───────────┐
+                    │  Express REST API    │
+                    │                      │
+                    │ Authentication       │
+                    │ Controllers          │
+                    │ Business Logic       │
+                    │ File Uploads         │
+                    └──────────┬───────────┘
+                               │
+                           Sequelize
+                               │
+                    ┌──────────▼───────────┐
+                    │      SQLite DB       │
+                    │                      │
+                    │ Users                │
+                    │ Products             │
+                    │ Offers               │
+                    └──────────────────────┘
 ```
 
 ---
 
-## 🛠️ Technology Stack
+# 🧩 Frontend Architecture
 
-### Frontend (Client-Side)
-| Technology | Purpose | Key Features Used |
-|------------|---------|-------------------|
-| **Angular 20** | SPA Framework | Components, Services, Routing, Forms |
-| **TypeScript** | Type Safety | Interfaces, Types, Generics |
-| **Angular Material** | UI Components | Tables, Forms, Buttons, Dialogs |
-| **RxJS** | Reactive Programming | Observables, Operators, Subjects |
-| **SCSS** | Styling | Nested rules, Variables, Mixins |
+The Angular application follows a feature-based structure.
 
-### Backend (Server-Side)
-| Technology | Purpose | Key Features Used |
-|------------|---------|-------------------|
-| **Node.js** | Runtime Environment | Event Loop, Async I/O |
-| **Express** | Web Framework | Routing, Middleware, Error Handling |
-| **Sequelize ORM** | Database Layer | Models, Migrations, Queries |
-| **SQLite** | Database | Embedded DB, ACID compliance |
-| **JavaScript (ES6+)** | Server Logic | Async/Await, Modules, Arrow Functions |
+```
+src/
+│
+├── app/
+│   │
+│   ├── core/
+│   │   ├── auth/
+│   │   ├── enums/
+│   │   ├── interfaces/
+│   │   └── services/
+│   │
+│   ├── features/
+│   │   ├── auth/
+│   │   ├── checkout/
+│   │   ├── home/
+│   │   └── products/
+│   │
+│   ├── shared/
+│   │
+│   └── app.config.ts
+│
+├── assets/
+│
+└── environments/
+```
 
-### Development Tools
-- **npm** - Package management
-- **Nodemon** - Auto-restart during development
-- **Angular CLI** - Project scaffolding and build tools
-- **Git** - Version control
+### Core
 
----
+Contains application-wide services, interfaces and shared business logic.
 
-## 🚀 Getting Started
+### Features
 
-### Prerequisites
+Each business feature lives in its own module-like folder.
 
-Ensure you have the following installed:
-- **Node.js** v18 or higher
-- **npm** v9 or higher
-- **Git**
-- **Angular CLI** v20 (install globally: `npm install -g @angular/cli`)
+Examples:
 
-### Installation
+- Authentication
+- Checkout
+- Products
+- Home
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/javier-agustin-ale/market-control.git
-   cd market-control
-   ```
+This organization keeps responsibilities isolated and makes the application easier to maintain as it grows.
 
----
+### Shared
 
-## 🎨 FRONTEND Setup
-
-The frontend is an Angular 20 single-page application with Material Design components.
-
-1. **Navigate to frontend folder**
-   ```bash
-   cd frontend/market-control
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm start
-   ```
-   The application will open at `http://localhost:4200`
-
-4. **Run tests**
-   ```bash
-   npm test
-   ```
-
-5. **Build for production**
-   ```bash
-   npm run build
-   ```
-   Production files will be in `dist/market-control`
-
-### Frontend Architecture Details
-
-- **Components**: Modular, reusable UI components following Angular best practices
-- **Services**: Business logic and HTTP communication abstracted from components
-- **Reactive Forms**: Type-safe form handling with validation
-- **RxJS**: Asynchronous data streams for real-time updates
-- **Routing**: Lazy-loaded modules for optimal performance
+Reusable UI components, utilities and common functionality used across multiple features.
 
 ---
 
-## ⚙️ BACKEND Setup
+# 🛠 Technology Stack
 
-The backend is a RESTful API built with Express, providing data persistence and business logic.
+## Frontend
 
-1. **Navigate to backend folder**
-   ```bash
-   cd backend
-   ```
+| Technology | Purpose |
+|------------|---------|
+| **Angular 20** | Single Page Application framework |
+| **TypeScript** | Strong typing and maintainability |
+| **Angular Material** | UI components |
+| **RxJS** | Reactive programming and asynchronous data handling |
+| **Reactive Forms** | Form validation and user input |
+| **SCSS** | Component styling |
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### Frontend Highlights
 
-3. **Create a `.env` file in the backend folder**
-   ```env
-   PORT=3000
-   DB_DIALECT=sqlite
-   DB_STORAGE=./data/market.sqlite
-   NODE_ENV=development
-   ```
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-   API will be available at `http://localhost:3000`
-
-5. **Run the production server**
-   ```bash
-   npm start
-   ```
-
-### Backend Architecture Details
-
-- **Express Router**: Organized route handlers for clean API structure
-- **Sequelize ORM**: Type-safe database queries with model validation
-- **Middleware**: CORS, body parsing, error handling, request logging
-- **Database**: SQLite for lightweight, file-based persistence
-- **RESTful Design**: Standard HTTP methods and status codes
+- Feature-based architecture
+- Standalone components
+- Dependency Injection
+- Reactive Forms
+- Angular Material
+- RxJS Observables
+- HTTP Client
+- Reusable components
+- Responsive design
 
 ---
 
-## 🚀 API Documentation
+## Backend
 
-### Base URL
+| Technology | Purpose |
+|------------|---------|
+| **Node.js** | JavaScript runtime |
+| **Express** | REST API framework |
+| **Sequelize** | ORM |
+| **SQLite** | Database |
+| **JWT** | Authentication |
+| **bcrypt** | Password hashing |
+| **Multer** | Image uploads |
+| **dotenv** | Environment configuration |
+
+### Backend Highlights
+
+- RESTful API
+- JWT Authentication
+- File uploads
+- Role-based authorization
+- Middleware
+- Database persistence
+- Error handling
+- Sequelize ORM
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Before running the project make sure you have installed:
+
+- Node.js 18+
+- npm
+- Git
+- Angular CLI
+
+```bash
+npm install -g @angular/cli
+```
+
+---
+
+# 📥 Clone Repository
+
+```bash
+git clone https://github.com/javier-agustin-ale/market-control.git
+
+cd market-control
+```
+
+---
+
+# 🎨 Frontend Setup
+
+Navigate to the Angular project.
+
+```bash
+cd frontend/market-control
+```
+
+Install dependencies.
+
+```bash
+npm install
+```
+
+Run the development server.
+
+```bash
+npm start
+```
+
+or
+
+```bash
+ng serve
+```
+
+Open:
+
+```
+http://localhost:4200
+```
+
+---
+
+## Production Build
+
+```bash
+npm run build
+```
+
+Angular generates the optimized production build inside:
+
+```
+dist/market-control
+```
+
+---
+
+# ⚙ Backend Setup
+
+Navigate to the backend.
+
+```bash
+cd backend
+```
+
+Install dependencies.
+
+```bash
+npm install
+```
+
+Create a `.env` file.
+
+Example:
+
+```env
+PORT=3000
+
+JWT_SECRET=your-secret
+
+DB_DIALECT=sqlite
+
+DB_STORAGE=./database.sqlite
+
+NODE_ENV=development
+```
+
+Run the backend.
+
+Development
+
+```bash
+npm run dev
+```
+
+Production
+
+```bash
+npm start
+```
+
+The API will be available at
+
+```
+http://localhost:3000
+```
+
+---
+
+# 🌍 Environment Configuration
+
+The project uses different environment configurations for development and production.
+
+Frontend:
+
+```ts
+export const environment = {
+    production: false,
+    apiUrl: 'http://localhost:3000/api'
+};
+```
+
+Production:
+
+```ts
+export const environment = {
+    production: true,
+    apiUrl: 'https://market-control-api-tn0q.onrender.com/api'
+};
+```
+
+Using Angular environments allows the same application to work locally and in production without modifying the source code.
+
+---
+
+# ☁ Deployment
+
+The application is fully deployed using **Render**.
+
+## Frontend
+
+Angular production build
+
+↓
+
+Static hosting
+
+↓
+
+REST API communication
+
+↓
+
+Backend
+
+---
+
+## Backend
+
+Express server
+
+↓
+
+SQLite database
+
+↓
+
+Uploaded product images
+
+↓
+
+REST API
+
+---
+
+Deployment improvements include:
+
+- Production Angular build
+- Environment-based API URLs
+- Static asset optimization
+- REST API deployment
+- Image upload support
+- Production-ready configuration
+
+---
+
+# 📡 REST API
+
+## Base URL
+
+Development
+
 ```
 http://localhost:3000/api
 ```
 
-### Endpoints
+Production
 
-#### Products
-
-| Method | Endpoint | Description | Request Body | Response |
-|--------|----------|-------------|--------------|----------|
-| `GET` | `/allProducts` | Get all products | - | `200 OK` Array of products |
-| `POST` | `/` | Create a new product | Product object | `201 Created` Product created |
-| `PUT` | `/:id` | Update a product | Updated product | `200 OK` Updated product |
-| `DELETE` | `/:id` | Delete a product | - | `204 No Content` |
-
-#### Example Request
-
-**Create Product:**
-```bash
-POST http://localhost:3000/api/
-Content-Type: application/json
-
-{
-  "name": "Apple",
-  "unitPrice": 2.00,
-  "specialOffer": {
-    "quantity": 2,
-    "price": 3.00
-  }
-}
+```
+https://market-control-api-tn0q.onrender.com/api
 ```
 
-**Response:**
+---
+
+# Authentication
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/auth/register` | Register user |
+| POST | `/auth/login` | Authenticate user |
+| POST | `/auth/logout` | Logout |
+| GET | `/auth/me` | Current authenticated user |
+
+---
+
+# Products
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | `/allProducts` | Retrieve all products |
+| POST | `/` | Create product |
+| PUT | `/:id` | Update product |
+| DELETE | `/:id` | Delete product |
+
+---
+
+## Example Product
+
 ```json
 {
-  "id": 1,
-  "name": "Apple",
-  "unitPrice": 2.00,
-  "specialOffer": {
-    "quantity": 2,
-    "price": 3.00
-  },
-  "createdAt": "2024-02-02T10:30:00.000Z",
-  "updatedAt": "2024-02-02T10:30:00.000Z"
+    "name": "Apple",
+    "unitPrice": 2,
+    "specialOffer": {
+        "quantity": 2,
+        "price": 3
+    }
 }
 ```
 
 ---
 
-## 📁 Project Structure
+# 📸 Image Uploads
+
+Administrators can upload an image while creating or editing a product.
+
+Images are stored by the backend and served through the REST API, allowing the frontend to display them dynamically.
+
+If a product does not contain an image, the interface gracefully falls back to a placeholder while still allowing administrators to edit or delete the product.
+
+---
+
+# 🔒 Authentication Flow
 
 ```
-market-control/
+User Login
+
+        │
+
+        ▼
+
+Backend validates credentials
+
+        │
+
+        ▼
+
+JWT generated
+
+        │
+
+        ▼
+
+Frontend stores authentication
+
+        │
+
+        ▼
+
+Authenticated requests include token
+
+        │
+
+        ▼
+
+Protected backend endpoints
+```
+
+The administration panel is available only to authenticated administrators, while the checkout remains publicly accessible.
+
+---
+
+# 📁 Project Structure
+
+The repository is organized as a monorepo containing both the Angular frontend and the Express backend.
+
+```text
+market-control
 │
-├── frontend/market-control/        # Angular Frontend Application
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── components/         # Reusable UI components
-│   │   │   ├── services/           # Business logic & API calls
-│   │   │   ├── models/             # TypeScript interfaces/types
-│   │   │   ├── pages/              # Route components
-│   │   │   └── shared/             # Shared utilities
-│   │   ├── assets/                 # Static files
-│   │   └── environments/           # Environment configs
-│   ├── angular.json                # Angular CLI configuration
-│   ├── package.json                # Frontend dependencies
-│   └── tsconfig.json               # TypeScript configuration
+├── frontend/
+│   └── market-control/
+│       ├── src/
+│       │   ├── app/
+│       │   │
+│       │   ├── core/
+│       │   │   ├── auth/
+│       │   │   ├── enums/
+│       │   │   ├── interfaces/
+│       │   │   └── services/
+│       │   │
+│       │   ├── features/
+│       │   │   ├── auth/
+│       │   │   ├── checkout/
+│       │   │   ├── home/
+│       │   │   └── products/
+│       │   │
+│       │   ├── shared/
+│       │   │
+│       │   ├── assets/
+│       │   └── environments/
+│       │
+│       ├── angular.json
+│       ├── package.json
+│       └── tsconfig.json
 │
-├── backend/                        # Node.js/Express Backend
-│   ├── src/
-│   │   ├── routes/                 # API route definitions
-│   │   ├── models/                 # Sequelize database models
-│   │   ├── controllers/            # Request handlers
-│   │   ├── middleware/             # Custom middleware
-│   │   └── config/                 # Database & app config
-│   ├── data/                       # SQLite database file
-│   ├── .env                        # Environment variables
-│   ├── package.json                # Backend dependencies
-│   └── server.js                   # Application entry point
+├── backend/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── uploads/
+│   ├── seeders/
+│   ├── package.json
+│   └── index.js
 │
-├── .gitignore                      # Git ignore rules
-└── README.md                       # This file
+└── README.md
 ```
 
 ---
 
-## 💡 Full-Stack Development Highlights
+# 🧪 Testing
 
-This project demonstrates proficiency in:
+## Frontend
 
-### Frontend Development
-- **Component Architecture**: Modular, maintainable code structure
-- **State Management**: RxJS observables for reactive data flow
-- **Type Safety**: Strong typing with TypeScript interfaces and models
-- **Responsive Design**: Mobile-first approach with Angular Material
-- **Form Handling**: Template-driven and reactive forms with validation
-- **HTTP Communication**: Service layer for API integration
-- **Testing**: Unit tests with Jasmine and Karma
+Run Angular unit tests.
 
-### Backend Development
-- **RESTful API Design**: Standard HTTP methods and resource-based routing
-- **Database Design**: Normalized schema with proper relationships
-- **ORM Usage**: Sequelize for database abstraction and migrations
-- **Middleware Pattern**: Custom middleware for cross-cutting concerns
-- **Error Handling**: Centralized error handling with appropriate status codes
-- **Environment Configuration**: Secure configuration management
-- **Async Programming**: Promises and async/await patterns
-
-### Full-Stack Integration
-- **API Communication**: JSON-based data exchange
-- **CORS Configuration**: Secure cross-origin resource sharing
-- **Request/Response Cycle**: Complete understanding of HTTP protocol
-- **Data Validation**: Both client-side and server-side validation
-- **State Synchronization**: Real-time updates between frontend and backend
-- **Separation of Concerns**: Clean architecture with clear boundaries
-
----
-
-## 🧪 Testing
-
-### Frontend Tests
 ```bash
 cd frontend/market-control
-npm test                 # Run unit tests
-npm run test:coverage    # Generate coverage report
+
+npm test
 ```
 
-### Backend Tests
+Generate a coverage report.
+
+```bash
+npm run test:coverage
+```
+
+---
+
+## Backend
+
+Run the backend test suite.
+
 ```bash
 cd backend
-npm test                 # Run API tests
+
+npm test
 ```
 
 ---
 
-## 🎓 What I Learned
+# 💡 Development Highlights
 
-This project enhanced my understanding of:
+This project demonstrates knowledge of modern full-stack development practices.
 
-- **Full-Stack Architecture**: Designing and implementing complete end-to-end solutions
-- **API Design**: Creating RESTful services with proper HTTP semantics
-- **Database Modeling**: Structuring data for optimal query performance
-- **Type Safety**: Leveraging TypeScript across the entire stack
-- **Reactive Programming**: Managing asynchronous data flows with RxJS
-- **Modern Frameworks**: Deep dive into Angular 20 and Express ecosystems
-- **Testing Practices**: Writing unit tests for frontend components and API endpoints
-- **Development Workflow**: Using modern tools for efficient development
-- **Code Organization**: Structuring projects for maintainability and scalability
-- **Problem Solving**: Implementing complex business logic (offer calculations)
+## Angular
+
+- Angular 20
+- Standalone Components
+- Feature-based architecture
+- Dependency Injection
+- Reactive Forms
+- Angular Material
+- RxJS
+- Component communication
+- HTTP Client
+- Responsive UI
+- Environment configuration
 
 ---
 
-## 🤝 Contributing
+## Backend
 
-Contributions, issues, and feature requests are welcome!
+- Express REST APIs
+- Sequelize ORM
+- SQLite
+- Authentication
+- JWT
+- Password hashing
+- Middleware
+- File uploads
+- Error handling
+- Environment variables
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+---
+
+## Full-Stack
+
+- RESTful communication
+- Authentication flow
+- CRUD operations
+- Image upload pipeline
+- API integration
+- Production deployment
+- Clean architecture
+- Separation of concerns
+
+---
+
+# 📚 What I Learned
+
+This project was originally developed to solve a supermarket checkout challenge, but it gradually evolved into a much more complete full-stack application.
+
+Working on this project helped me deepen my understanding of:
+
+- Designing scalable Angular applications
+- Structuring projects using a feature-based architecture
+- Building REST APIs with Express
+- Authentication using JWT
+- Password hashing with bcrypt
+- Database modeling with Sequelize
+- File uploads using Multer
+- Environment configuration for multiple deployments
+- Frontend and backend integration
+- Deployment to Render
+- Building production-ready applications
+
+More importantly, it reinforced the importance of writing maintainable, reusable code and keeping a clear separation between presentation, business logic and persistence layers.
+
+---
+
+# 🚀 Future Improvements
+
+Some ideas for future iterations of the project include:
+
+- Category management
+- Pagination
+- Shopping history
+
+---
+
+# 🤝 Contributing
+
+Contributions, suggestions and feature requests are always welcome.
+
+If you'd like to contribute:
+
+1. Fork the repository
+2. Create a feature branch
+
+```bash
+git checkout -b feature/my-feature
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Add awesome feature"
+```
+
+4. Push your branch
+
+```bash
+git push origin feature/my-feature
+```
+
 5. Open a Pull Request
 
 ---
 
-## 📝 License
+# 📝 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-## 👨‍💻 Author
-
-**Javier Agustin Ale**
-
-- GitHub: [@javier-agustin-ale](https://github.com/javier-agustin-ale)
-- Project Link: [market-control](https://github.com/javier-agustin-ale/market-control)
+This project is licensed under the MIT License.
 
 ---
 
-## 🙏 Acknowledgments
+# 👨‍💻 About Me
 
-- **Angular Team** - For the powerful framework
-- **Express Community** - For the minimalist web framework
-- **Sequelize** - For the robust ORM
-- **Material Design** - For the beautiful UI components
+Hi! I'm **Javier Agustín Ale**, a Frontend Software Developer currently based in Germany with over five years of experience building modern web applications.
+
+Although my professional background is primarily focused on Frontend and TypeScript, I enjoy building complete full-stack applications to better understand every layer of the software development process.
+
+This project represents exactly that: taking an initial coding challenge and evolving it into a production-ready application with authentication, administration features, image uploads, deployment, and a clean architecture.
+
+### Connect with me
+
+- GitHub: https://github.com/javier-agustin-ale
+- LinkedIn: https://www.linkedin.com/in/javier-agustin-ale/
+
+If you have any feedback, questions, or opportunities, feel free to reach out.
 
 ---
 
-⭐ If you found this project useful or interesting, please consider giving it a star!
+# ⭐ Support
+
+If you found this project interesting or useful:
+
+- ⭐ Star the repository
+- 🍴 Fork it
+- 🐞 Report issues
+- 💡 Suggest improvements
+
+Every contribution and piece of feedback is appreciated.
+
+---
+
+Thank you for taking the time to check out this project!
