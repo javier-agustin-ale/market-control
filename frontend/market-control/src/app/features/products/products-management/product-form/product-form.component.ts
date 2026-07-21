@@ -87,7 +87,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   public getFileName(): string {
-    return this.file?.name ? this.file.name : 'No file selected';
+    return this.file?.name ? this.file.name : '';
   }
 
   public onSubmit(isNewProduct: boolean): void {
