@@ -5,6 +5,7 @@ import sequelize from "./config.js";
 import authRoutes from "./routes/authRoutes.js";
 import marketControlRoutes from "./routes/marketControlRoutes.js";
 import { seedDefaultAdmin } from "./seeders/defaultAdminSeeder.js";
+import { seedDefaultProducts } from "./seeders/defaultProductsSeeder.js";
 
 import "./models/product.js";
 import "./models/user.js";
@@ -27,6 +28,7 @@ const PORT = process.env.PORT || process.env.APP_PORT || 3000;
 sequelize
   .sync({ alter: true })
   .then(seedDefaultAdmin)
+  .then(seedDefaultProducts)
   .then(() => {
     app.listen(PORT, () => {
       console.log("Server is running in port " + PORT);
