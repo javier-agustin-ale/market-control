@@ -198,10 +198,14 @@ export const requestAccount = async (req, res) => {
         : {
             host: process.env.SMTP_HOST || "smtp.mailtrap.io",
             port: Number(process.env.SMTP_PORT) || 2525,
+            secure: process.env.SMTP_SECURE === "true",
             auth: {
               user: process.env.SMTP_USER || "",
               pass: process.env.SMTP_PASS || "",
             },
+            tls: {
+              rejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== "false"
+            }
           };
 
       const transporter = nodemailer.createTransport(transporterOptions);
@@ -210,7 +214,7 @@ export const requestAccount = async (req, res) => {
         process.env.PERSONAL_EMAIL || "javieragustinale@gmail.com";
 
       const mailOptions = {
-        from: '"Market Control System" <no-reply@market.com>',
+        from: process.env.SMTP_FROM || `"Market Control System" <${process.env.SMTP_USER || 'no-reply@market.com'}>`,
         to: personalEmail,
         subject: `Account Request from ${name}`,
         text: `Hello Admin,
