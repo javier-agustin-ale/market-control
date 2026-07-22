@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, retry, throwError, timer } from 'rxjs';
+import { catchError, map, Observable, retry, throwError, timer } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { NotificationService } from '../../services/notification-service/notification.service';
 import { AuthUserLogIn } from '../interfaces/auth-user-log-in.interface';
@@ -55,9 +55,11 @@ export class AuthService {
     );
   }
 
-  public isAuthenticated(): Observable<AuthUser> {
-    return this.httpClient.get<AuthUser>(`${this.apiUrl}/me`, {
+  public isAuthenticated(): Observable<AuthUser | null> {
+    return this.httpClient.get<{ user: AuthUser | null }>(`${this.apiUrl}/me`, {
       withCredentials: true,
-    });
+    }).pipe(
+      map(res => res.user)
+    );
   }
 }

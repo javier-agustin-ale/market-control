@@ -65,13 +65,14 @@ export class HomeComponent implements OnInit {
   private defineStreams(): void {
     this.profileUser$ = this.profileService.profileUser$;
   }
+
   private checkUserSession(): void {
     this.authService
       .isAuthenticated()
       .pipe(take(1))
       .subscribe({
-        next: (isAuthenticated) => {
-          if (isAuthenticated) this.profileService.changeProfileUser(ProfileUserEnum.Admin);
+        next: (user) => {
+          if (user) this.profileService.changeProfileUser(ProfileUserEnum.Admin);
         },
       });
   }
