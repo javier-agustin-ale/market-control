@@ -110,12 +110,33 @@ export const logout = (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.userId, {
+    const cookies = req.headers.cookie
+      ? req.headers.cookie.split(";").map((c) => c.trim())
+      : [];
+    const matchingCookie = cookies.find((c) =>
+      c.startsWith(`${AUTH_COOKIE_NAME}=`),
+    );
+    const token = matchingCookie
+      ? decodeURIComponent(matchingCookie.split("=").slice(1).join("="))
+      : null;
+
+    if (!token) {
+      return res.status(200).json({ user: null });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(200).json({ user: null });
+    }
+
+    const user = await User.findByPk(decoded.userId, {
       attributes: ["userId", "username", "email", "role"],
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(200).json({ user: null });
     }
 
     return res.status(200).json({ user });
