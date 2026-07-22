@@ -9,6 +9,7 @@ import { seedDefaultProducts } from "./seeders/defaultProductsSeeder.js";
 
 import "./models/product.js";
 import "./models/user.js";
+import "./models/accountRequest.js";
 
 dotenv.config();
 const app = express();

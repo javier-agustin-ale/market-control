@@ -63,11 +63,6 @@
             }
           </mat-form-field>
 
-          <!-- <div class="form-options">
-            <mat-checkbox formControlName="rememberSession">Remember me</mat-checkbox>
-            <button mat-button color="primary" type="button">Forgot password?</button>
-          </div> -->
-
           <button
             class="submit-button"
             mat-raised-button
@@ -79,10 +74,12 @@
           </button>
         </form>
 
-        <!-- <div class="signup-row">
+        <div class="signup-row">
           <span>New to Market Control?</span>
-          <button mat-button color="primary" type="button">Create account</button>
-        </div> -->
+          <button mat-button color="primary" type="button" (click)="getAccountForm()">
+            Get an account
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </section>

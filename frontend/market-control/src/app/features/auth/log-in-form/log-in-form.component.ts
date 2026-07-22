@@ -3,12 +3,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../core/auth/auth-service/auth.service';
 import { AuthUserLogIn } from '../../../core/auth/interfaces/auth-user-log-in.interface';
+import { RequestAccountFormComponent } from '../request-account-form/request-account-form.component';
 
 @Component({
   selector: 'app-log-in-form',
@@ -32,6 +33,7 @@ export class LogInFormComponent {
 
   private authService = inject(AuthService);
   private dialogRef = inject(MatDialogRef<LogInFormComponent>);
+  private dialog = inject(MatDialog);
   private fb = inject(FormBuilder);
 
   public loginForm = this.fb.group({
@@ -58,6 +60,15 @@ export class LogInFormComponent {
     this.authService.logIn(form).subscribe({
       next: () => this.dialogRef.close(true),
       error: () => {},
+    });
+  }
+
+  public getAccountForm(): void {
+    this.dialog.open(RequestAccountFormComponent, {
+      autoFocus: 'first-tabbable',
+      backdropClass: 'login-dialog-backdrop',
+      panelClass: 'login-dialog-panel',
+      width: 'min(92vw, 480px)',
     });
   }
 }

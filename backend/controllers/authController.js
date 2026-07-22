@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import AccountRequest from "../models/accountRequest.js";
 import User from "../models/user.js";
 
 const SALT_ROUNDS = 12;
@@ -144,5 +146,111 @@ export const getMe = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Failed to retrieve user.", error: error.message });
+  }
+};
+
+export const requestAccount = async (req, res) => {
+  try {
+    const { name, email, linkedinProfile, message } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ message: "Name and email are required." });
+    }
+
+    if (message && message.length > 200) {
+      return res
+        .status(400)
+        .json({ message: "Message cannot exceed 200 characters." });
+    }
+
+    let accountRequest = await AccountRequest.findOne({ where: { email } });
+    let shouldSendEmail = true;
+
+    if (accountRequest) {
+      accountRequest.requestCount += 1;
+      if (accountRequest.requestCount > 2) {
+        shouldSendEmail = false;
+      }
+      accountRequest.name = name;
+      accountRequest.linkedinProfile =
+        linkedinProfile || accountRequest.linkedinProfile;
+      accountRequest.message = message || accountRequest.message;
+      await accountRequest.save();
+    } else {
+      accountRequest = await AccountRequest.create({
+        name,
+        email,
+        linkedinProfile,
+        message,
+        requestCount: 1,
+      });
+    }
+
+    if (shouldSendEmail) {
+      const transporterOptions = process.env.SMTP_SERVICE
+        ? {
+            service: process.env.SMTP_SERVICE,
+            auth: {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS,
+            },
+          }
+        : {
+            host: process.env.SMTP_HOST || "smtp.mailtrap.io",
+            port: Number(process.env.SMTP_PORT) || 2525,
+            auth: {
+              user: process.env.SMTP_USER || "",
+              pass: process.env.SMTP_PASS || "",
+            },
+          };
+
+      const transporter = nodemailer.createTransport(transporterOptions);
+
+      const personalEmail =
+        process.env.PERSONAL_EMAIL || "javieragustinale@gmail.com";
+
+      const mailOptions = {
+        from: '"Market Control System" <no-reply@market.com>',
+        to: personalEmail,
+        subject: `Account Request from ${name}`,
+        text: `Hello Admin,
+
+A new user has requested an account. Here are their details:
+
+Name: ${name}
+Email: ${email}
+LinkedIn: ${linkedinProfile || "Not provided"}
+Message: ${message || "No message provided"}
+Request Count: ${accountRequest.requestCount}
+
+Best regards,
+Market Control System`,
+      };
+
+      if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+        transporter.sendMail(mailOptions).catch((err) => {
+          console.error("Failed to send email in background:", err);
+        });
+      } else {
+        console.log("----- [MOCK EMAIL SENT] -----");
+        console.log(`To: ${personalEmail}`);
+        console.log(`Subject: ${mailOptions.subject}`);
+        console.log(mailOptions.text);
+        console.log("------------------------------");
+      }
+    } else {
+      console.log(
+        `Email request for ${email} throttled (count: ${accountRequest.requestCount})`,
+      );
+    }
+
+    return res.status(200).json({
+      message: "Request received successfully.",
+      requestCount: accountRequest.requestCount,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to request account.", error: error.message });
   }
 };

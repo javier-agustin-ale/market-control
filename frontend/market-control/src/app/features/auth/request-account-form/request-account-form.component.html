@@ -1,0 +1,100 @@
+<mat-dialog-content class="request-dialog-content">
+  <section class="request-container">
+    <mat-card class="request-card" appearance="outlined">
+      <mat-card-content>
+        <button
+          class="close-button"
+          matIconButton
+          mat-dialog-close
+          type="button"
+          aria-label="Close request dialog"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <div class="request-header">
+          <div class="brand-mark">
+            <mat-icon aria-hidden="true">contact_mail</mat-icon>
+          </div>
+          <div>
+            <p class="eyebrow">Market Control</p>
+            <h1>Request Account</h1>
+          </div>
+        </div>
+
+        <form class="request-form" [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+          <mat-form-field
+            class="input-form"
+            appearance="outline"
+            [class.mat-form-field-invalid]="isControlInvalid('name')"
+          >
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name" placeholder="John Doe" />
+            <mat-icon matPrefix aria-hidden="true">person</mat-icon>
+            @if (isControlInvalid('name')) {
+              <mat-error>Name is required.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field
+            class="input-form"
+            appearance="outline"
+            [class.mat-form-field-invalid]="isControlInvalid('email')"
+          >
+            <mat-label>Email Address</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="john.doe@example.com"
+            />
+            <mat-icon matPrefix aria-hidden="true">mail</mat-icon>
+            @if (isControlInvalid('email')) {
+              <mat-error>Enter a valid email address.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="input-form" appearance="outline">
+            <mat-label>LinkedIn Profile (Optional)</mat-label>
+            <input
+              matInput
+              type="url"
+              formControlName="linkedinProfile"
+              placeholder="https://linkedin.com/in/username"
+            />
+            <mat-icon matPrefix aria-hidden="true">link</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field
+            class="input-form"
+            appearance="outline"
+            [class.mat-form-field-invalid]="isControlInvalid('message')"
+          >
+            <mat-label>Message (Optional)</mat-label>
+            <textarea
+              matInput
+              rows="3"
+              formControlName="message"
+              placeholder="Why would you like an account?"
+            ></textarea>
+            <mat-icon matPrefix aria-hidden="true">chat</mat-icon>
+            <mat-hint align="end">{{ requestForm.value.message?.length || 0 }}/200</mat-hint>
+            @if (isControlInvalid('message')) {
+              <mat-error>Message cannot exceed 200 characters.</mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            class="submit-button"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="requestForm.invalid || isSubmitting"
+          >
+            {{ isSubmitting ? 'Requesting...' : 'Ask for account' }}
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</mat-dialog-content>

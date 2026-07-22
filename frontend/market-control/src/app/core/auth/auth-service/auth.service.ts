@@ -62,4 +62,20 @@ export class AuthService {
       map(res => res.user)
     );
   }
+
+  public requestAccount(data: { name: string; email: string; linkedinProfile?: string; message?: string }): Observable<{ message: string; requestCount: number }> {
+    return this.httpClient.post<{ message: string; requestCount: number }>(
+      `${this.apiUrl}/request-account`,
+      data
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        this.notificationService.showNotification({
+          message: error.error.message || 'Request failed.',
+          action: 'Close',
+          duration: 4000,
+        });
+        return throwError(() => error);
+      })
+    );
+  }
 }

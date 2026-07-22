@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/logout", authController.logout);
+router.post("/request-account", authController.requestAccount);
 
 // Protected route — returns current user session info ( returns null if unauthenticated)
 router.get("/me", authController.getMe);
