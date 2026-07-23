@@ -1,6 +1,17 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
+const backendDir = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(backendDir, '.env') });
+
 const AUTH_COOKIE_NAME = 'authToken';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+	throw new Error('JWT_SECRET is not configured. Set it in backend/.env.');
+}
 
 const getCookieValue = (cookieHeader, cookieName) => {
 	if (!cookieHeader) {
@@ -31,7 +42,7 @@ export const authenticate = (req, res, next) => {
 	}
 
 	try {
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		const decoded = jwt.verify(token, JWT_SECRET);
 		req.user = { userId: decoded.userId, role: decoded.role };
 		next();
 	} catch (err) {
