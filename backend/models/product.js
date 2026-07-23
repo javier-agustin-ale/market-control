@@ -23,7 +23,7 @@ const Product = sequelize.define('Product', {
 		type: DataTypes.DECIMAL(10, 2),
 	},
 	image: {
-		type: DataTypes.BLOB('long'),
+		type: DataTypes.BLOB,
 		allowNull: false,
 	},
 });

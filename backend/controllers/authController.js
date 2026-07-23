@@ -1,3 +1,5 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
@@ -5,13 +7,19 @@ import { Resend } from "resend";
 import AccountRequest from "../models/accountRequest.js";
 import User from "../models/user.js";
 
-dotenv.config();
+const backendDir = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(backendDir, ".env") });
 
 const SALT_ROUNDS = 12;
 const AUTH_COOKIE_NAME = "authToken";
+const JWT_SECRET = process.env.JWT_SECRET;
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not configured. Set it in backend/.env.");
+}
 
 const getAuthCookieOptions = () => ({
   httpOnly: true,
@@ -84,7 +92,7 @@ export const login = async (req, res) => {
 
     const token = jwt.sign(
       { userId: user.userId, role: user.role },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || "8h" },
     );
 
@@ -134,7 +142,7 @@ export const getMe = async (req, res) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
+      decoded = jwt.verify(token, JWT_SECRET);
     } catch (err) {
       return res.status(200).json({ user: null });
     }

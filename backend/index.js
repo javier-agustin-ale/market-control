@@ -26,15 +26,24 @@ app.use("/api/", marketControlRoutes);
 
 const PORT = process.env.PORT || process.env.APP_PORT || 3000;
 
-sequelize
-  .sync({ alter: true })
-  .then(seedDefaultAdmin)
-  .then(seedDefaultProducts)
-  .then(() => {
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connection successful.");
+
+    await sequelize.sync();
+    console.log("Database tables synchronized.");
+
+    await seedDefaultAdmin();
+    await seedDefaultProducts();
+
     app.listen(PORT, () => {
       console.log("Server is running in port " + PORT);
     });
-  })
-  .catch((err) => {
-    console.log("DB connection failed: ", err);
-  });
+  } catch (err) {
+    console.error("DB connection failed:", err);
+    process.exit(1);
+  }
+};
+
+startServer();
