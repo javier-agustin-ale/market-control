@@ -1,11 +1,17 @@
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import AccountRequest from "../models/accountRequest.js";
 import User from "../models/user.js";
 
+dotenv.config();
+
 const SALT_ROUNDS = 12;
 const AUTH_COOKIE_NAME = "authToken";
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const getAuthCookieOptions = () => ({
   httpOnly: true,
@@ -187,59 +193,37 @@ export const requestAccount = async (req, res) => {
     }
 
     if (shouldSendEmail) {
-      const transporterOptions = process.env.SMTP_SERVICE
-        ? {
-            service: process.env.SMTP_SERVICE,
-            auth: {
-              user: process.env.SMTP_USER,
-              pass: process.env.SMTP_PASS,
-            },
-          }
-        : {
-            host: process.env.SMTP_HOST || "smtp.mailtrap.io",
-            port: Number(process.env.SMTP_PORT) || 2525,
-            secure: process.env.SMTP_SECURE === "true",
-            auth: {
-              user: process.env.SMTP_USER || "",
-              pass: process.env.SMTP_PASS || "",
-            },
-            tls: {
-              rejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== "false"
-            }
-          };
-
-      const transporter = nodemailer.createTransport(transporterOptions);
-
       const personalEmail =
         process.env.PERSONAL_EMAIL || "javieragustinale@gmail.com";
-
-      const mailOptions = {
-        from: process.env.SMTP_FROM || `"Market Control System" <${process.env.SMTP_USER || 'no-reply@market.com'}>`,
-        to: personalEmail,
-        subject: `Account Request from ${name}`,
-        text: `Hello Admin,
+      const emailText = `Hello Admin,
 
 A new user has requested an account. Here are their details:
 
 Name: ${name}
 Email: ${email}
-LinkedIn: ${linkedinProfile || "Not provided"}
+LinkedIn Profile: ${linkedinProfile || "Not provided"}
 Message: ${message || "No message provided"}
 Request Count: ${accountRequest.requestCount}
 
 Best regards,
-Market Control System`,
-      };
+Market Control System`;
 
-      if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-        transporter.sendMail(mailOptions).catch((err) => {
-          console.error("Failed to send email in background:", err);
-        });
+      if (resend && process.env.RESEND_API_KEY) {
+        try {
+          await resend.emails.send({
+            from: "Market Control System <onboarding@resend.dev>",
+            to: personalEmail,
+            subject: `Account Request from ${name}`,
+            text: emailText,
+          });
+        } catch (err) {
+          console.error("Failed to send email via Resend:", err);
+        }
       } else {
         console.log("----- [MOCK EMAIL SENT] -----");
         console.log(`To: ${personalEmail}`);
-        console.log(`Subject: ${mailOptions.subject}`);
-        console.log(mailOptions.text);
+        console.log(`Subject: Account Request from ${name}`);
+        console.log(emailText);
         console.log("------------------------------");
       }
     } else {

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -29,6 +29,7 @@ export class RequestAccountFormComponent {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
   private dialogRef = inject(MatDialogRef<RequestAccountFormComponent>);
+  private dialog = inject(MatDialog);
   private fb = inject(FormBuilder);
 
   public requestForm = this.fb.group({
@@ -67,6 +68,7 @@ export class RequestAccountFormComponent {
           action: 'Close',
           duration: 5000,
         });
+        this.dialog.closeAll();
         this.dialogRef.close(true);
       },
       error: () => {
