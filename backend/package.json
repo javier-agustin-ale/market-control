@@ -1,11 +1,12 @@
 {
-	"name": "haiilomarkt-api",
+	"name": "Market-control-api",
 	"version": "1.0.0",
-	"description": "Api for the HaiiloMarkt",
+	"description": "Api for the Market-control",
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
+		"seed": "node seed.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "JavierAle",
@@ -20,7 +21,6 @@
 		"pg": "^8.22.0",
 		"pg-hstore": "^2.3.4",
 		"resend": "^6.18.0",
-		"sequelize": "^6.37.7",
-		"sqlite3": "^5.1.7"
+		"sequelize": "^6.37.8"
 	}
 }

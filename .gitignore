@@ -3,7 +3,6 @@ backend/node_modules/
 backend/.env
 backend/dist/
 backend/data/
-backend/*.sqlite
 
 # Angular
 frontend/haiilomarkt-fe/node_modules/

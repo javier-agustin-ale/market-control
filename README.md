@@ -1,6 +1,6 @@
 # Market Control 🛒
 
-> A full-stack supermarket checkout system built with **Angular 20**, **Node.js**, **Express**, and **SQLite**.
+> A full-stack supermarket checkout system built with **Angular 20**, **Node.js**, **Express**, and **PostgreSQL**.
 
 Market Control is a full-stack web application that simulates the checkout process of a supermarket while providing an administration panel to manage the entire product catalogue.
 
@@ -13,7 +13,7 @@ This project was originally created as a coding challenge and later evolved into
 [![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 </p>
@@ -176,7 +176,7 @@ The project follows a classic three-layer architecture with a complete separatio
                            Sequelize
                                │
                     ┌──────────▼───────────┐
-                    │      SQLite DB       │
+                    │   PostgreSQL DB      │
                     │                      │
                     │ Users                │
                     │ Products             │
@@ -273,7 +273,7 @@ Reusable UI components, utilities and common functionality used across multiple 
 | **Node.js** | JavaScript runtime |
 | **Express** | REST API framework |
 | **Sequelize** | ORM |
-| **SQLite** | Database |
+| **PostgreSQL** | Database |
 | **JWT** | Authentication |
 | **bcrypt** | Password hashing |
 | **Multer** | Image uploads |
@@ -390,9 +390,12 @@ PORT=3000
 
 JWT_SECRET=your-secret
 
-DB_DIALECT=sqlite
-
-DB_STORAGE=./database.sqlite
+DB_DIALECT=postgres
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=market_control
+DB_USER=postgres
+DB_PASS=postgres
 
 NODE_ENV=development
 ```
@@ -473,7 +476,7 @@ Express server
 
 ↓
 
-SQLite database
+PostgreSQL database
 
 ↓
 
@@ -705,7 +708,7 @@ This project demonstrates knowledge of modern full-stack development practices.
 
 - Express REST APIs
 - Sequelize ORM
-- SQLite
+- PostgreSQL
 - Authentication
 - JWT
 - Password hashing
