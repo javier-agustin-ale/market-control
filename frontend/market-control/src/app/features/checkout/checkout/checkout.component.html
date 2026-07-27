@@ -1,8 +1,15 @@
-<div class="checkout-container">
+<div
+  [ngClass]="{
+    'checkout-container': !(isMobile$ | async),
+    'checkout-container-mobile': (isMobile$ | async),
+  }"
+>
   <div class="available-products-container">
     <app-available-products [tabContext]="tabContextEnum.Checkout"></app-available-products>
   </div>
-  <div class="shopping-cart-container">
-    <app-shopping-cart></app-shopping-cart>
-  </div>
+  @if (!(isMobile$ | async)) {
+    <div class="shopping-cart-container">
+      <app-shopping-cart></app-shopping-cart>
+    </div>
+  }
 </div>

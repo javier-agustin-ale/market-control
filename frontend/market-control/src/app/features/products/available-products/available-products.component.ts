@@ -8,7 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { BehaviorSubject, combineLatest, map, NEVER, Observable } from 'rxjs';
 import { TabContextEnum } from '../../../core/enums/tab-context.enum';
 import { TabContext } from '../../../core/interfaces/tab-context.type';
+import { ScreenService } from '../../../core/services/screen-service/screen.service';
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
+import { ShoppingCartService } from '../../../shared/services/shopping-cart-service/shopping-cart-service';
+import { ShoppingCartComponent } from '../../checkout/checkout/shopping-cart/shopping-cart.component';
 import { Product } from '../interfaces/product.interface';
 import { ProductService } from '../services/product-service/product.service';
 
@@ -17,6 +20,7 @@ import { ProductService } from '../services/product-service/product.service';
   imports: [
     CommonModule,
     ProductCardComponent,
+    ShoppingCartComponent,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -33,12 +37,26 @@ export class AvailableProductsComponent {
 
   public searchValue = '';
   public filteredProducts$: Observable<Product[]> = NEVER;
+  public isMobileCartOpen = false;
 
   private searchValue$ = new BehaviorSubject<string>('');
   private productService = inject(ProductService);
+  private screenService = inject(ScreenService);
+  private shoppingCartService = inject(ShoppingCartService);
+
+  public isMobile$ = this.screenService.isMobile$;
+  public shoppingCartCount$ = this.shoppingCartService.shoppingCartCount$;
 
   public ngOnInit(): void {
     this.defineStreams();
+  }
+
+  public openMobileCart(): void {
+    this.isMobileCartOpen = true;
+  }
+
+  public closeMobileCart(): void {
+    this.isMobileCartOpen = false;
   }
 
   public onSearchChange(value: string): void {

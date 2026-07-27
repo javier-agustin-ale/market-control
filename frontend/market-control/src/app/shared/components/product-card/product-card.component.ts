@@ -10,10 +10,10 @@ import { catchError, of, Subscription, switchMap, throwError } from 'rxjs';
 import { TabContextEnum } from '../../../core/enums/tab-context.enum';
 import { TabContext } from '../../../core/interfaces/tab-context.type';
 import { ShoppingCartProduct } from '../../../features/checkout/interfaces/shopping-cart-product.interface';
-import { ShoppingCartService } from '../../../features/checkout/services/shopping-cart-service/shopping-cart-service';
 import { Product } from '../../../features/products/interfaces/product.interface';
 import { ProductManagmentService } from '../../../features/products/services/product-managment-service/product-managment.service';
 import { ProductService } from '../../../features/products/services/product-service/product.service';
+import { ShoppingCartService } from '../../services/shopping-cart-service/shopping-cart-service';
 import { DeleteProductDialogComponent } from './delete-product-dialog/delete-product-dialog.component';
 
 @Component({

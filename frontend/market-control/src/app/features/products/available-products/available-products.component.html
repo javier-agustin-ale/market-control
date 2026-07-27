@@ -1,5 +1,5 @@
 <div class="header-container">
-  <h2>Products</h2>
+  <!-- <h2>Products</h2> -->
   <div class="input-container">
     <mat-form-field class="search-field" appearance="outline" color="accent">
       <mat-label>Search Product</mat-label>
@@ -16,7 +16,45 @@
       }
     </mat-form-field>
   </div>
+  @if (isMobile$ | async) {
+    <button
+      mat-mini-fab
+      color="accent"
+      class="mobile-cart-fab"
+      (click)="openMobileCart()"
+      aria-label="Open Shopping Cart"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+      <!-- Optional item badge count -->
+      @if (shoppingCartCount$ | async; as count) {
+        <span class="cart-badge">{{ count }}</span>
+      }
+    </button>
+  }
 </div>
+
+<div
+  class="mobile-cart-backdrop"
+  [class.mobile-cart-backdrop--open]="isMobileCartOpen"
+  (click)="closeMobileCart()"
+></div>
+<div
+  class="mobile-cart-sheet"
+  [class.mobile-cart-sheet--open]="isMobileCartOpen"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Shopping Cart"
+  [attr.aria-hidden]="!isMobileCartOpen"
+>
+  <div class="mobile-cart-sheet__header">
+    <h3>Shopping Cart</h3>
+    <button mat-icon-button type="button" (click)="closeMobileCart()" aria-label="Close cart">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <app-shopping-cart></app-shopping-cart>
+</div>
+
 <div class="product-card-container">
   @if (filteredProducts$ | async; as productList) {
     @if (!productList.length) {

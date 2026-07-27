@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { ShoppingCartProduct } from '../../../features/checkout/interfaces/shopping-cart-product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +8,9 @@ import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.inte
 export class ShoppingCartService {
   private shoppingCartSubject = new BehaviorSubject<ShoppingCartProduct[]>([]);
   public shoppingCart$: Observable<ShoppingCartProduct[]> = this.shoppingCartSubject.asObservable();
+  public shoppingCartCount$: Observable<number> = this.shoppingCartSubject
+    .asObservable()
+    .pipe(map((s) => s.length));
 
   public addProductToCart(newProduct: ShoppingCartProduct): void {
     const currentCart = this.shoppingCartSubject.getValue();

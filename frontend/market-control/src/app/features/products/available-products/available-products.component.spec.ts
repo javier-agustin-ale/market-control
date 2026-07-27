@@ -34,4 +34,17 @@ describe('AvailableProductsComponent', () => {
     component.clearSearch();
     expect(component.searchValue).toBe('');
   });
+
+  it('should open the mobile cart sheet', () => {
+    component.openMobileCart();
+
+    expect(component.isMobileCartOpen).toBeTrue();
+  });
+
+  it('should close the mobile cart sheet', () => {
+    component.isMobileCartOpen = true;
+    component.closeMobileCart();
+
+    expect(component.isMobileCartOpen).toBeFalse();
+  });
 });
