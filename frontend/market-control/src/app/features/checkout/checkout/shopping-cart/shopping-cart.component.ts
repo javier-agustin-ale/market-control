@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,7 +21,7 @@ import { ReverseShoppingCartListPipe } from '../../pipes/reverse-shopping-card-l
   styleUrl: './shopping-cart.component.scss',
   standalone: true,
 })
-export class ShoppingCartComponent implements OnInit, OnDestroy {
+export class ShoppingCartComponent implements OnInit {
   public shoppingCart$: Observable<ShoppingCartProduct[]> = NEVER;
   public totalToPay$: Observable<number> = NEVER;
 
@@ -72,8 +72,5 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   }
   public clearCart(): void {
     this.shoppingCartService.resetShoppingCart();
-  }
-  public ngOnDestroy(): void {
-    this.clearCart();
   }
 }

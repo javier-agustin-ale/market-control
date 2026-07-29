@@ -35,16 +35,27 @@ describe('AvailableProductsComponent', () => {
     expect(component.searchValue).toBe('');
   });
 
-  it('should open the mobile cart sheet', () => {
-    component.openMobileCart();
+  it('should open the mobile product form sheet', () => {
+    spyOn(component['dialog'], 'open');
+    component.openMobileProductForm();
 
-    expect(component.isMobileCartOpen).toBeTrue();
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      jasmine.objectContaining({
+        data: { mode: 'product-form' },
+      }),
+    );
   });
 
-  it('should close the mobile cart sheet', () => {
-    component.isMobileCartOpen = true;
-    component.closeMobileCart();
+  it('should open the mobile cart sheet', () => {
+    spyOn(component['dialog'], 'open');
+    component.openMobileCart();
 
-    expect(component.isMobileCartOpen).toBeFalse();
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      jasmine.objectContaining({
+        data: { mode: 'cart' },
+      }),
+    );
   });
 });

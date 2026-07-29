@@ -5,6 +5,12 @@
   column-gap: 15px;
   row-gap: 15px;
 }
+
+.products-managment-container-mobile {
+  display: flex;
+  flex-direction: column;
+}
+
 .available-products-container {
   min-width: 0;
 }

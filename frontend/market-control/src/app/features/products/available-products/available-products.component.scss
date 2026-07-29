@@ -25,73 +25,13 @@
   max-height: 630px;
 }
 
+.cart-badge {
+  bottom: 10px;
+  position: relative;
+}
 .no-products {
   text-align: center;
   padding-top: 15px;
-}
-.mobile-cart-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(3, 18, 20, 0.64);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
-}
-
-.mobile-cart-backdrop--open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.mobile-cart-sheet {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-height: min(88vh, 780px);
-  overflow: auto;
-  background: rgba(8, 31, 33, 0.94);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  border: 1px solid rgba(228, 244, 244, 0.14);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35);
-  padding: 16px 16px 24px;
-  z-index: 1001;
-  transform: translateY(100%);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease,
-    visibility 0.25s ease;
-}
-
-.mobile-cart-sheet--open {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.mobile-cart-sheet__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #e4f4f4;
-}
-
-.mobile-cart-sheet__header h3 {
-  margin: 0;
-  font-size: 1.1rem;
 }
 
 .shopping-cart-container {

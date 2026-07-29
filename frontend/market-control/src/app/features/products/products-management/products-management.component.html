@@ -1,10 +1,17 @@
-<div class="products-managment-container">
+<div
+  [ngClass]="{
+    'products-managment-container': !(isMobile$ | async),
+    'products-managment-container-mobile': (isMobile$ | async),
+  }"
+>
   <div class="available-products-container">
     <app-available-products
       [tabContext]="tabContextEnum.ProductsManagement"
     ></app-available-products>
   </div>
-  <div class="form-container">
-    <app-product-form [productToEdit]="productToEdit$ | async"></app-product-form>
-  </div>
+  @if (!(isMobile$ | async)) {
+    <div class="form-container">
+      <app-product-form [productToEdit]="productToEdit$ | async"></app-product-form>
+    </div>
+  }
 </div>
