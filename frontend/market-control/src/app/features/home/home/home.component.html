@@ -4,9 +4,13 @@
       <h1 class="title">{{ 'Market Control' | uppercase }}</h1>
       <div>
         @if (profileUser !== profileUserEnum.Admin) {
-          <button matButton (click)="adminLogIn()">Admin</button>
+          <button mat-icon-button (click)="adminLogIn()">
+            <mat-icon>person_outline</mat-icon>
+          </button>
         } @else {
-          <button matButton (click)="adminLogOut()">Log Out</button>
+          <button mat-icon-button (click)="adminLogOut()">
+            <mat-icon>logout</mat-icon>
+          </button>
         }
       </div>
     </div>

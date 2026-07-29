@@ -1,19 +1,29 @@
 .header {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 56px;
 }
+
+.title {
+  margin: 0;
+  text-align: center;
+  color: white;
+}
+
+.header button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .home-container {
   background: transparent;
   max-width: 90%;
   margin: 1rem auto 3rem auto;
   padding-bottom: 3rem;
-}
-
-.title {
-  color: white;
-  text-align: center;
-  width: 85%;
 }
 
 .home-card {
