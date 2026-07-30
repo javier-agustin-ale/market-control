@@ -5,38 +5,25 @@
 .request-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 .request-card {
   width: min(100%, 440px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at top right, rgba(0, 131, 143, 0.2), transparent 34%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%);
-  }
-
-  mat-card-content {
-    position: relative;
-  }
+.request-dialog-content {
+  padding: 20px;
 }
 
 .close-button {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: 0;
+  right: 0;
   color: rgba(228, 244, 244, 0.72);
 
   &:hover {
@@ -71,7 +58,7 @@
 }
 
 .eyebrow {
-  margin: 0 0 6px;
+  margin: 0 0 2px;
   color: #8fd5da;
   font-size: 16px;
   font-weight: 600;
@@ -84,11 +71,15 @@ h1 {
   font-size: 28px;
   font-weight: 700;
 }
+.legend {
+  margin: 5px 0 0;
+  font-size: 13px;
+}
 
 .request-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .input-form {
@@ -122,6 +113,6 @@ h1 {
   .request-header {
     flex-direction: column;
     gap: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 }
