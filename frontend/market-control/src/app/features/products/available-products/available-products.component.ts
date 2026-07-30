@@ -1,16 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BehaviorSubject, combineLatest, map, NEVER, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, NEVER, Observable, Subscription, withLatestFrom } from 'rxjs';
 import { TabContextEnum } from '../../../core/enums/tab-context.enum';
 import { TabContext } from '../../../core/interfaces/tab-context.type';
+import { ScreenService } from '../../../core/services/screen-service/screen.service';
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
+import { ShoppingCartService } from '../../../shared/services/shopping-cart-service/shopping-cart-service';
 import { Product } from '../interfaces/product.interface';
 import { ProductService } from '../services/product-service/product.service';
+import { MobileSheetComponent } from './mobile-sheet/mobile-sheet.component';
+import { ProductManagmentService } from '../services/product-managment-service/product-managment.service';
 
 @Component({
   selector: 'app-available-products',
@@ -22,12 +28,13 @@ import { ProductService } from '../services/product-service/product.service';
     FormsModule,
     MatButtonModule,
     MatIconModule,
+    MatBadgeModule,
   ],
   templateUrl: './available-products.component.html',
   styleUrl: './available-products.component.scss',
   standalone: true,
 })
-export class AvailableProductsComponent {
+export class AvailableProductsComponent implements OnInit, OnDestroy {
   @Input() tabContext!: TabContext;
   public tabContextEnum = TabContextEnum;
 
@@ -36,9 +43,60 @@ export class AvailableProductsComponent {
 
   private searchValue$ = new BehaviorSubject<string>('');
   private productService = inject(ProductService);
+  private screenService = inject(ScreenService);
+  private shoppingCartService = inject(ShoppingCartService);
+  private productManagmentService = inject(ProductManagmentService);
+  private dialog = inject(MatDialog);
+  private subscription = new Subscription();
+
+  public isMobile$ = this.screenService.isMobile$;
+  public shoppingCartCount$ = this.shoppingCartService.shoppingCartCount$;
 
   public ngOnInit(): void {
     this.defineStreams();
+
+    this.subscription.add(
+      this.productManagmentService.productToEdit$
+        .pipe(withLatestFrom(this.isMobile$))
+        .subscribe(([product, isMobile]) => {
+          if (product && isMobile) {
+            this.openMobileProductForm(false);
+          }
+        }),
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public openMobileCart(): void {
+    this.dialog.open(MobileSheetComponent, {
+      width: 'min(95vw, calc(100vw - 20px))',
+      maxHeight: '90vh',
+      backdropClass: 'mobile-sheet-backdrop',
+      panelClass: 'mobile-sheet-panel',
+      data: { mode: 'cart' },
+      autoFocus: false,
+    });
+  }
+
+  public openMobileProductForm(isNew: boolean = false): void {
+    if (isNew) {
+      this.productManagmentService.selectedProductToEdit(null);
+    }
+    const dialogRef = this.dialog.open(MobileSheetComponent, {
+      width: 'min(95vw, calc(100vw - 20px))',
+      maxHeight: '90vh',
+      backdropClass: 'mobile-sheet-backdrop',
+      panelClass: 'mobile-sheet-panel',
+      data: { mode: 'product-form' },
+      autoFocus: false,
+    });
+
+    dialogRef?.afterClosed()?.subscribe(() => {
+      this.productManagmentService.selectedProductToEdit(null);
+    });
   }
 
   public onSearchChange(value: string): void {

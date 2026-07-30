@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { ShoppingCartProduct } from '../../../features/checkout/interfaces/shopping-cart-product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +8,9 @@ import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.inte
 export class ShoppingCartService {
   private shoppingCartSubject = new BehaviorSubject<ShoppingCartProduct[]>([]);
   public shoppingCart$: Observable<ShoppingCartProduct[]> = this.shoppingCartSubject.asObservable();
+  public shoppingCartCount$: Observable<number> = this.shoppingCartSubject
+    .asObservable()
+    .pipe(map((products) => products.reduce((total, product) => total + product.quantity, 0)));
 
   public addProductToCart(newProduct: ShoppingCartProduct): void {
     const currentCart = this.shoppingCartSubject.getValue();
@@ -15,11 +18,17 @@ export class ShoppingCartService {
     const productAlreadyInCart = currentCart.find(
       (product) => product.productId === newProduct.productId,
     );
+
     if (productAlreadyInCart) {
-      productAlreadyInCart.quantity += newProduct.quantity;
-      this.shoppingCartSubject.next([...currentCart]);
+      const updatedCart = currentCart.map((product) =>
+        product.productId === newProduct.productId
+          ? { ...product, quantity: product.quantity + newProduct.quantity }
+          : product,
+      );
+      this.shoppingCartSubject.next(updatedCart);
       return;
     }
+
     this.shoppingCartSubject.next([...currentCart, newProduct]);
   }
 
@@ -27,9 +36,12 @@ export class ShoppingCartService {
     const currentCart = this.shoppingCartSubject.getValue();
 
     const product = currentCart.find((product) => product.productId === productId);
+
     if (product && product.quantity >= 2) {
-      product.quantity--;
-      this.shoppingCartSubject.next([...currentCart]);
+      const updatedCart = currentCart.map((p) =>
+        p.productId === productId ? { ...p, quantity: p.quantity - 1 } : p,
+      );
+      this.shoppingCartSubject.next(updatedCart);
       return;
     }
 

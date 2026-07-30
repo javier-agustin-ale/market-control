@@ -1,5 +1,4 @@
 <div class="header-container">
-  <h2>Products</h2>
   <div class="input-container">
     <mat-form-field class="search-field" appearance="outline" color="accent">
       <mat-label>Search Product</mat-label>
@@ -16,7 +15,31 @@
       }
     </mat-form-field>
   </div>
+  @if (isMobile$ | async) {
+    @if (tabContext === tabContextEnum.Checkout) {
+      <button
+        mat-mini-fab
+        color="accent"
+        class="mobile-cart-fab"
+        (click)="openMobileCart()"
+        [matBadge]="(shoppingCartCount$ | async)?.toString()"
+        matBadgeColor="warn"
+      >
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-mini-fab
+        color="primary"
+        class="mobile-cart-fab"
+        (click)="openMobileProductForm(true)"
+      >
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    }
+  }
 </div>
+
 <div class="product-card-container">
   @if (filteredProducts$ | async; as productList) {
     @if (!productList.length) {

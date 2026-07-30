@@ -6,6 +6,11 @@
   row-gap: 15px;
 }
 
+.checkout-container-mobile {
+  display: flex;
+  flex-direction: column;
+}
+
 .shopping-cart-container {
   border-left: 1px solid rgb(152, 152, 152);
   padding-left: 15px;

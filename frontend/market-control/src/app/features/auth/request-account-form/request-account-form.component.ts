@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,11 +14,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../core/auth/auth-service/auth.service';
 import { NotificationService } from '../../../core/services/notification-service/notification.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScreenService } from '../../../core/services/screen-service/screen.service';
 
 @Component({
   selector: 'app-request-account-form',
   imports: [
+    AsyncPipe,
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
@@ -26,7 +28,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatDialogContent,
     MatDialogClose,
-    MatTooltipModule,
   ],
   templateUrl: './request-account-form.component.html',
   styleUrl: './request-account-form.component.scss',
@@ -35,10 +36,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class RequestAccountFormComponent {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
+  private screenService = inject(ScreenService);
   private dialogRef = inject(MatDialogRef<RequestAccountFormComponent>);
   private dialog = inject(MatDialog);
   private fb = inject(FormBuilder);
 
+  public isMobile$ = this.screenService.isMobile$;
   public requestForm = this.fb.group({
     name: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],

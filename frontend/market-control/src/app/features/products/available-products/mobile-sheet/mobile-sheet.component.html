@@ -1,0 +1,13 @@
+<div class="mobile-sheet__header">
+  <h3>{{ sheetTitle$ | async }}</h3>
+  <button mat-icon-button type="button" [mat-dialog-close] aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="mobile-sheet__content">
+  @if (isProductFormSheet) {
+    <app-product-form [productToEdit]="productToEdit$ | async"></app-product-form>
+  } @else {
+    <app-shopping-cart></app-shopping-cart>
+  }
+</div>

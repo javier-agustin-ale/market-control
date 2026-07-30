@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { Product } from '../../interfaces/product.interface';
 import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
 import { ProductService } from '../../services/product-service/product.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product-form',
@@ -50,6 +51,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   private productService = inject(ProductService);
   private fb = inject(FormBuilder);
   private productManagmentService = inject(ProductManagmentService);
+  private dialogRef = inject(MatDialogRef, { optional: true });
 
   public ngOnInit(): void {
     this.setUpForm();
@@ -108,12 +110,18 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     productData.append('image', this.file);
     if (isNewProduct) {
-      this.productService.addNewProduct(productData).subscribe(() => this.clearForm());
+      this.productService.addNewProduct(productData).subscribe(() => {
+        this.clearForm();
+        this.dialogRef?.close();
+      });
     } else {
       if (!this.productToEdit?.productId) return;
       this.productService
         .updateProduct(this.productToEdit?.productId, productData)
-        .subscribe(() => this.clearForm());
+        .subscribe(() => {
+          this.clearForm();
+          this.dialogRef?.close();
+        });
     }
   }
 

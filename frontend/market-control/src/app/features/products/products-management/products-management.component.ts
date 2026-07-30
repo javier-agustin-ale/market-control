@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { NEVER, Observable } from 'rxjs';
 import { TabContextEnum } from '../../../core/enums/tab-context.enum';
+import { ScreenService } from '../../../core/services/screen-service/screen.service';
 import { AvailableProductsComponent } from '../available-products/available-products.component';
 import { Product } from '../interfaces/product.interface';
 import { ProductManagmentService } from '../services/product-managment-service/product-managment.service';
@@ -17,6 +18,8 @@ import { ProductFormComponent } from './product-form/product-form.component';
 export class ProductsManagementComponent implements OnInit {
   public productToEdit$: Observable<Product | null> = NEVER;
   public tabContextEnum = TabContextEnum;
+  private screenService = inject(ScreenService);
+  public isMobile$ = this.screenService.isMobile$;
 
   private productManagmentService = inject(ProductManagmentService);
 

@@ -34,4 +34,28 @@ describe('AvailableProductsComponent', () => {
     component.clearSearch();
     expect(component.searchValue).toBe('');
   });
+
+  it('should open the mobile product form sheet', () => {
+    spyOn(component['dialog'], 'open');
+    component.openMobileProductForm();
+
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      jasmine.objectContaining({
+        data: { mode: 'product-form' },
+      }),
+    );
+  });
+
+  it('should open the mobile cart sheet', () => {
+    spyOn(component['dialog'], 'open');
+    component.openMobileCart();
+
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      jasmine.objectContaining({
+        data: { mode: 'cart' },
+      }),
+    );
+  });
 });
