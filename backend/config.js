@@ -25,8 +25,6 @@ const validateEnvironment = () => {
 	if (!process.env.CLIENT_ORIGIN && isProduction) missing.push('CLIENT_ORIGIN');
 	if (!process.env.RESEND_API_KEY && isProduction) missing.push('RESEND_API_KEY');
 	if (!process.env.PERSONAL_EMAIL && isProduction) missing.push('PERSONAL_EMAIL');
-	if (!process.env.PORT && !process.env.APP_PORT && isProduction) missing.push('PORT');
-
 	if (missing.length > 0) {
 		throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
 	}

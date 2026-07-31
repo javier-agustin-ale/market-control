@@ -1,6 +1,9 @@
 {
   "name": "market-control",
   "version": "0.0.0",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "ng": "ng",
     "start": "rm -rf .angular/cache && ng serve",

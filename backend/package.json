@@ -4,6 +4,9 @@
 	"description": "Api for the Market-control",
 	"type": "module",
 	"main": "index.js",
+	"engines": {
+		"node": "22.x"
+	},
 	"scripts": {
 		"start": "node index.js",
 		"seed": "node seed.js",
