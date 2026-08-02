@@ -24,11 +24,11 @@ This project was originally created as a coding challenge and later evolved into
 
 ### Frontend
 
-https://market-control-l2ke.onrender.com/
+[https://market-control-2hze.vercel.app/](https://market-control-2hze.vercel.app/)
 
 ### Backend API
 
-https://market-control-api-tn0q.onrender.com/api
+[https://market-control-five.vercel.app/api](https://market-control-five.vercel.app/api)
 
 ---
 
@@ -440,7 +440,7 @@ Production:
 ```ts
 export const environment = {
     production: true,
-    apiUrl: 'https://market-control-api-tn0q.onrender.com/api'
+    apiUrl: 'https://market-control-five.vercel.app/api'
 };
 ```
 
@@ -450,7 +450,7 @@ Using Angular environments allows the same application to work locally and in pr
 
 # ☁ Deployment
 
-The application is fully deployed using **Render**.
+The application is fully deployed using **Vercel**.
 
 ## Frontend
 
@@ -512,7 +512,7 @@ http://localhost:3000/api
 Production
 
 ```
-https://market-control-api-tn0q.onrender.com/api
+https://market-control-five.vercel.app/api
 ```
 
 ---
@@ -747,7 +747,7 @@ Working on this project helped me deepen my understanding of:
 - File uploads using Multer
 - Environment configuration for multiple deployments
 - Frontend and backend integration
-- Deployment to Render
+- Deployment to Vercel
 - Building production-ready applications
 
 More importantly, it reinforced the importance of writing maintainable, reusable code and keeping a clear separation between presentation, business logic and persistence layers.
