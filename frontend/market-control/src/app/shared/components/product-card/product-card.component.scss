@@ -1,9 +1,10 @@
 .product-card {
-  max-width: 190px;
+  width: 100%;
   padding: 0;
   display: flex;
   flex-direction: column;
-  height: 260px;
+  min-height: 260px;
+  min-width: 0;
 }
 
 .image-container {
@@ -16,6 +17,8 @@
 
 .image-container img {
   width: 90%;
+  max-height: 110px;
+  object-fit: contain;
   margin-top: 8px;
   border-radius: 5px;
 }
@@ -53,13 +56,26 @@ mat-card-content {
 
 .row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 8px;
 }
 .title {
   margin: 0;
   font-size: 17px;
   font-weight: 600;
+  line-height: 1.2;
+  min-width: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.row button {
+  flex: 0 0 auto;
 }
 
 .subtitle {
@@ -76,4 +92,81 @@ mat-card-content {
   border-radius: 6px;
   color: #81c784;
   text-align: center;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (max-width: 420px) {
+  .product-card {
+    display: grid;
+    grid-template-columns: 40% minmax(0, 1fr);
+    min-height: 150px;
+    height: auto;
+    position: relative;
+  }
+
+  .image-container,
+  .no-image {
+    height: 150px;
+  }
+
+  .image-container img {
+    width: 92%;
+    max-height: 132px;
+    margin-top: 0;
+  }
+
+  .delete-button {
+    top: 6px;
+    right: 6px;
+    transform: scale(0.9);
+    transform-origin: top right;
+  }
+
+  .delete-button:hover {
+    transform: scale(0.95);
+  }
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 12px 56px 12px 4px;
+  }
+
+  .row {
+    display: block;
+  }
+
+  .row button {
+    position: absolute;
+    right: 8px;
+    top: 74px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .subtitle {
+    margin: 8px 0 0;
+  }
+
+  .offer {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    left: 12px;
+    width: auto;
+    margin-top: 0;
+    padding: 7px 10px;
+    font-size: 13px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .product-card:has(.offer) {
+    padding-bottom: 42px;
+  }
 }

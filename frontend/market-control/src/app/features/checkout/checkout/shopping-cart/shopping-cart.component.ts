@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { map, NEVER, Observable } from 'rxjs';
+import { TruncatePipe } from '../../../../shared/pipes/truncate-pipe/truncate-pipe';
 import { ShoppingCartService } from '../../../../shared/services/shopping-cart-service/shopping-cart-service';
 import { ShoppingCartProduct } from '../../interfaces/shopping-cart-product.interface';
 import { ReverseShoppingCartListPipe } from '../../pipes/reverse-shopping-card-list.pipe';
@@ -16,6 +17,7 @@ import { ReverseShoppingCartListPipe } from '../../pipes/reverse-shopping-card-l
     MatButtonModule,
     ReverseShoppingCartListPipe,
     MatTooltipModule,
+    TruncatePipe,
   ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.scss',
