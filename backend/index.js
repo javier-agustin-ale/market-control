@@ -1,3 +1,4 @@
+import "pg";
 import app from "./app.js";
 import sequelize from "./config.js";
 
