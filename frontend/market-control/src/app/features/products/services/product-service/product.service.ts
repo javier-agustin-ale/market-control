@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, take, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of, take, tap, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { NotificationService } from '../../../../core/services/notification-service/notification.service';
 import { Product } from '../../interfaces/product.interface';
@@ -11,6 +11,9 @@ import { Product } from '../../interfaces/product.interface';
 export class ProductService {
   private productListSubject = new BehaviorSubject<Product[]>([]);
   public productList$: Observable<Product[]> = this.productListSubject.asObservable();
+
+  private isLoadingProductsSubject = new BehaviorSubject<boolean>(false);
+  public isLoadingProducts$: Observable<boolean> = this.isLoadingProductsSubject.asObservable();
 
   private apiUrl: string = environment.apiUrl;
 
@@ -69,6 +72,8 @@ export class ProductService {
   }
 
   private getProducts(): void {
+    this.isLoadingProductsSubject.next(true);
+
     this.httpClient
       .get<Product[]>(`${this.apiUrl}/allProducts`)
       .pipe(
@@ -79,8 +84,9 @@ export class ProductService {
             action: 'Close',
             duration: 5000,
           });
-          return throwError(() => error);
+          return of([]);
         }),
+        finalize(() => this.isLoadingProductsSubject.next(false)),
       )
       .subscribe((products) => this.productListSubject.next(products));
   }

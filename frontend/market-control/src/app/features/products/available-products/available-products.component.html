@@ -41,13 +41,21 @@
 </div>
 
 <div class="product-card-container">
-  @if (filteredProducts$ | async; as productList) {
-    @if (!productList.length) {
-      <h3 class="no-products">No products available</h3>
-    } @else {
-      @for (product of productList; track product.productId) {
-        <app-product-card [tabContext]="tabContext" [product]="product"></app-product-card>
+  @if (isLoadingProducts$ | async) {
+    <div class="loading-products">
+      <mat-spinner diameter="48"></mat-spinner>
+    </div>
+  } @else {
+    @if (filteredProducts$ | async; as productList) {
+      @if (!productList.length) {
+        <h3 class="no-products">No products available</h3>
+      } @else {
+        @for (product of productList; track product.productId) {
+          <app-product-card [tabContext]="tabContext" [product]="product"></app-product-card>
+        }
       }
+    } @else {
+      <h3 class="no-products">No products available</h3>
     }
   }
 </div>

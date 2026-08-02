@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BehaviorSubject, combineLatest, map, NEVER, Observable, Subscription, withLatestFrom } from 'rxjs';
 import { TabContextEnum } from '../../../core/enums/tab-context.enum';
 import { TabContext } from '../../../core/interfaces/tab-context.type';
@@ -29,6 +30,7 @@ import { ProductManagmentService } from '../services/product-managment-service/p
     MatButtonModule,
     MatIconModule,
     MatBadgeModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './available-products.component.html',
   styleUrl: './available-products.component.scss',
@@ -51,6 +53,7 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
 
   public isMobile$ = this.screenService.isMobile$;
   public shoppingCartCount$ = this.shoppingCartService.shoppingCartCount$;
+  public isLoadingProducts$ = this.productService.isLoadingProducts$;
 
   public ngOnInit(): void {
     this.defineStreams();
