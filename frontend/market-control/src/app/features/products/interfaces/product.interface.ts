@@ -5,6 +5,7 @@ export interface Product {
   offerAmount: number | null;
   offerPrice: number | null;
   image: ImageBuffer;
+  categoryId: number;
 }
 
 interface ImageBuffer {

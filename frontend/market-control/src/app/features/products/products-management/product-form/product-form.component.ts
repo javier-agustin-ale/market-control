@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -13,8 +14,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Subscription } from 'rxjs';
+import { NEVER, Observable, Subscription } from 'rxjs';
+import { ProductCategory } from '../../interfaces/product-category.interface';
 import { Product } from '../../interfaces/product.interface';
+import { ProductCategoryService } from '../../services/product-category/product-category.service';
 import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
 import { ProductService } from '../../services/product-service/product.service';
 
@@ -28,12 +31,14 @@ import { ProductService } from '../../services/product-service/product.service';
     ReactiveFormsModule,
     MatButtonModule,
     MatCheckboxModule,
+    AsyncPipe,
   ],
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.scss',
   standalone: true,
 })
 export class ProductFormComponent implements OnInit, OnDestroy {
+  public categories$: Observable<ProductCategory[] | null> = NEVER;
   @ViewChild(FormGroupDirective) private formDirective?: FormGroupDirective;
 
   private _productToEdit: Product | null = null;
@@ -52,11 +57,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   private containsOfferSubscription!: Subscription;
 
   private productService = inject(ProductService);
+  private productCategoryService = inject(ProductCategoryService);
   private fb = inject(FormBuilder);
   private productManagmentService = inject(ProductManagmentService);
   private dialogRef = inject(MatDialogRef, { optional: true });
 
   public ngOnInit(): void {
+    this.getCategories();
     this.setUpForm();
     this.fillFormWithEditProduct(this._productToEdit);
   }
@@ -122,6 +129,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  private getCategories(): void {
+    this.categories$ = this.productCategoryService.productCategoryList$;
+  }
+
   private addExistingImageToFile(product: Product | null): void {
     if (!product || !(product as any).image?.data) return;
     const byteArray = new Uint8Array((product as any).image.data);
@@ -155,6 +166,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       offerAmount: [null],
       offerPrice: [null],
       containsOffer: [false],
+      categoryId: [null, Validators.required],
     });
 
     this.containsOfferSubscription = this.formProduct
@@ -171,6 +183,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       offerAmount: null,
       offerPrice: null,
       containsOffer: false,
+      categoryId: null,
     };
   }
 
