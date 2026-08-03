@@ -15,6 +15,8 @@ import { ScreenService } from '../../../core/services/screen-service/screen.serv
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
 import { ShoppingCartService } from '../../../shared/services/shopping-cart-service/shopping-cart-service';
 import { Product } from '../interfaces/product.interface';
+import { ProductCategory } from '../interfaces/product-category.interface';
+import { ProductCategoryService } from '../services/product-category/product-category.service';
 import { ProductService } from '../services/product-service/product.service';
 import { MobileSheetComponent } from './mobile-sheet/mobile-sheet.component';
 import { ProductManagmentService } from '../services/product-managment-service/product-managment.service';
@@ -41,10 +43,13 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
   public tabContextEnum = TabContextEnum;
 
   public searchValue = '';
+  public selectedCategoryId: number | null = null;
   public filteredProducts$: Observable<Product[]> = NEVER;
+  public categories$: Observable<ProductCategory[]> = NEVER;
 
   private searchValue$ = new BehaviorSubject<string>('');
   private productService = inject(ProductService);
+  private productCategoryService = inject(ProductCategoryService);
   private screenService = inject(ScreenService);
   private shoppingCartService = inject(ShoppingCartService);
   private productManagmentService = inject(ProductManagmentService);
@@ -56,6 +61,7 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
   public isLoadingProducts$ = this.productService.isLoadingProducts$;
 
   public ngOnInit(): void {
+    this.categories$ = this.productCategoryService.productCategoryList$;
     this.defineStreams();
 
     this.subscription.add(
@@ -110,6 +116,13 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
   public clearSearch(): void {
     this.searchValue = '';
     this.searchValue$.next('');
+  }
+
+  public selectCategory(categoryId: number | null): void {
+    if (this.selectedCategoryId === categoryId) return;
+
+    this.selectedCategoryId = categoryId;
+    this.productService.getProductsByCategory(categoryId);
   }
 
   private defineStreams(): void {

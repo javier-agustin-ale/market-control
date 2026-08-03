@@ -1,5 +1,5 @@
 <div class="header-container">
-  <div class="input-container">
+  <div class="toolbar-content">
     <mat-form-field class="search-field" appearance="outline" color="accent">
       <mat-label>Search Product</mat-label>
       <input
@@ -14,6 +14,33 @@
         </button>
       }
     </mat-form-field>
+
+    @if (categories$ | async; as categories) {
+      @if (categories.length) {
+        <div class="category-filter" aria-label="Filter products by category">
+          <button
+            type="button"
+            class="category-pill"
+            [class.active]="selectedCategoryId === null"
+            [attr.aria-pressed]="selectedCategoryId === null"
+            (click)="selectCategory(null)"
+          >
+            All
+          </button>
+          @for (category of categories; track category.categoryId) {
+            <button
+              type="button"
+              class="category-pill"
+              [class.active]="selectedCategoryId === category.categoryId"
+              [attr.aria-pressed]="selectedCategoryId === category.categoryId"
+              (click)="selectCategory(category.categoryId)"
+            >
+              {{ category.name }}
+            </button>
+          }
+        </div>
+      }
+    }
   </div>
   @if (isMobile$ | async) {
     @if (tabContext === tabContextEnum.Checkout) {
