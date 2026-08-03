@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom, of } from 'rxjs';
 import { Product } from '../../interfaces/product.interface';
 import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
@@ -99,5 +99,61 @@ describe('ProductFormComponent', () => {
 
     expect(productServiceMock.addNewProduct).toHaveBeenCalled();
     expect(productManagmentServiceMock.selectedProductToEdit).toHaveBeenCalledWith(null);
+  });
+
+  it('should clear values and validation state when clearing the form', () => {
+    component.formProduct.patchValue({
+      name: '',
+      unitPrice: null,
+      containsOffer: true,
+      offerAmount: null,
+      offerPrice: null,
+    });
+    component.formProduct.markAllAsTouched();
+
+    expect(component.isControlInvalid('name')).toBeTrue();
+
+    component.clearForm();
+
+    expect(component.formProduct.value).toEqual({
+      name: '',
+      unitPrice: null,
+      offerAmount: null,
+      offerPrice: null,
+      containsOffer: false,
+    });
+    expect(component.isControlInvalid('name')).toBeFalse();
+    expect(component.formProduct.pristine).toBeTrue();
+    expect(component.formProduct.untouched).toBeTrue();
+  });
+
+  it('should reset offer validators after submitting a product with an offer', async () => {
+    const file = new File(['abc'], 'file.png', { type: 'image/png' });
+    (component as any).file = file;
+
+    component.formProduct.patchValue({
+      name: 'Offer Product',
+      unitPrice: 10,
+      containsOffer: true,
+      offerAmount: 2,
+      offerPrice: 15,
+    });
+
+    const addNewProductSpy = productServiceMock.addNewProduct.and.returnValue(of(void 0));
+
+    component.onSubmit(true);
+
+    await firstValueFrom(addNewProductSpy.calls.mostRecent().returnValue);
+
+    component.formProduct.patchValue({
+      name: 'Regular Product',
+      unitPrice: 5,
+      containsOffer: false,
+    });
+    (component as any).file = file;
+
+    expect(component.formProduct.get('offerAmount')?.hasValidator(Validators.required)).toBeFalse();
+    expect(component.formProduct.get('offerPrice')?.hasValidator(Validators.required)).toBeFalse();
+    expect(component.formProduct.valid).toBeTrue();
   });
 });

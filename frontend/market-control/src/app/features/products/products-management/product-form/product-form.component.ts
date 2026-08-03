@@ -1,13 +1,15 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  FormGroupDirective,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,7 +17,6 @@ import { Subscription } from 'rxjs';
 import { Product } from '../../interfaces/product.interface';
 import { ProductManagmentService } from '../../services/product-managment-service/product-managment.service';
 import { ProductService } from '../../services/product-service/product.service';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product-form',
@@ -33,6 +34,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   standalone: true,
 })
 export class ProductFormComponent implements OnInit, OnDestroy {
+  @ViewChild(FormGroupDirective) private formDirective?: FormGroupDirective;
+
   private _productToEdit: Product | null = null;
   @Input() set productToEdit(value: Product | null) {
     this._productToEdit = value;
@@ -68,19 +71,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   public clearForm(notifyService: boolean = true): void {
     if (notifyService) this.productManagmentService.selectedProductToEdit(null);
 
-    this.formProduct.reset(
-      {
-        name: '',
-        unitPrice: null,
-        offerAmount: null,
-        offerPrice: null,
-        containsOffer: false,
-      },
-      { emitEvent: false },
-    );
+    const initialFormValue = this.getInitialFormValue();
+
+    this.formDirective?.resetForm(initialFormValue);
+    this.formProduct.reset(initialFormValue, { emitEvent: false });
+    this.setOfferValidators(false);
     this.file = null;
-    this.formProduct.markAsPristine();
-    this.formProduct.markAsUntouched();
+    this.resetControlState();
   }
 
   public isControlInvalid(controlName: string): boolean {
@@ -147,7 +144,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     this.addExistingImageToFile(product);
     const hasOffer = !!(product as any).offerAmount;
-    this.formProduct.get('containsOffer')?.setValue(hasOffer);
+    this.formProduct.get('containsOffer')?.setValue(hasOffer, { emitEvent: false });
+    this.setOfferValidators(hasOffer);
   }
 
   private setUpForm(): void {
@@ -162,20 +160,47 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.containsOfferSubscription = this.formProduct
       .get('containsOffer')!
       .valueChanges.subscribe((checked) => {
-        const offerAmountControl = this.formProduct.get('offerAmount');
-        const offerPriceControl = this.formProduct.get('offerPrice');
-
-        if (checked) {
-          offerAmountControl!.setValidators([Validators.required, Validators.min(1)]);
-          offerPriceControl!.setValidators([Validators.required, Validators.min(0.01)]);
-        } else {
-          offerAmountControl!.clearValidators();
-          offerPriceControl!.clearValidators();
-        }
-
-        offerAmountControl!.updateValueAndValidity();
-        offerPriceControl!.updateValueAndValidity();
+        this.setOfferValidators(checked);
       });
+  }
+
+  private getInitialFormValue(): Record<string, string | number | boolean | null> {
+    return {
+      name: '',
+      unitPrice: null,
+      offerAmount: null,
+      offerPrice: null,
+      containsOffer: false,
+    };
+  }
+
+  private setOfferValidators(containsOffer: boolean): void {
+    const offerAmountControl = this.formProduct.get('offerAmount');
+    const offerPriceControl = this.formProduct.get('offerPrice');
+
+    if (containsOffer) {
+      offerAmountControl!.setValidators([Validators.required, Validators.min(1)]);
+      offerPriceControl!.setValidators([Validators.required, Validators.min(0.01)]);
+    } else {
+      offerAmountControl!.clearValidators();
+      offerPriceControl!.clearValidators();
+      offerAmountControl!.setValue(null, { emitEvent: false });
+      offerPriceControl!.setValue(null, { emitEvent: false });
+    }
+
+    offerAmountControl!.updateValueAndValidity({ emitEvent: false });
+    offerPriceControl!.updateValueAndValidity({ emitEvent: false });
+  }
+
+  private resetControlState(): void {
+    this.formProduct.markAsPristine();
+    this.formProduct.markAsUntouched();
+
+    Object.values(this.formProduct.controls).forEach((control) => {
+      control.markAsPristine();
+      control.markAsUntouched();
+      control.updateValueAndValidity({ emitEvent: false });
+    });
   }
 
   public ngOnDestroy(): void {
