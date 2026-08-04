@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,6 +57,8 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   public isMobile$ = this.screenService.isMobile$;
+  @ViewChild('categoryFilter') private categoryFilterRef?: ElementRef<HTMLElement>;
+
   public shoppingCartCount$ = this.shoppingCartService.shoppingCartCount$;
   public isLoadingProducts$ = this.productService.isLoadingProducts$;
 
@@ -116,6 +118,14 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
   public clearSearch(): void {
     this.searchValue = '';
     this.searchValue$.next('');
+  }
+
+  public scrollCategoryPills(direction: 'left' | 'right'): void {
+    const container = this.categoryFilterRef?.nativeElement;
+    if (!container) return;
+
+    const scrollAmount = Math.round(container.clientWidth * 0.35);
+    container.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
   }
 
   public selectCategory(categoryId: number | null): void {

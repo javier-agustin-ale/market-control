@@ -16,26 +16,52 @@
     </mat-form-field>
 
     @if (categories$ | async; as categories) {
-      @if (categories.length) {
-        <div class="category-filter" aria-label="Filter products by category">
-          <button
-            type="button"
-            class="category-pill"
-            [class.active]="selectedCategoryId === null"
-            [attr.aria-pressed]="selectedCategoryId === null"
-            (click)="selectCategory(null)"
-          >
-            All
-          </button>
-          @for (category of categories; track category.categoryId) {
+      @if (categories.length && !(isLoadingProducts$ | async)) {
+        <div class="category-filter-wrapper">
+          @if (!(isMobile$ | async)) {
+            <button
+              type="button"
+              mat-icon-button
+              class="category-scroll-button category-scroll-button--start"
+              (click)="scrollCategoryPills('left')"
+              aria-label="Scroll categories left"
+            >
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+          }
+
+          <div class="category-filter" aria-label="Filter products by category" #categoryFilter>
             <button
               type="button"
               class="category-pill"
-              [class.active]="selectedCategoryId === category.categoryId"
-              [attr.aria-pressed]="selectedCategoryId === category.categoryId"
-              (click)="selectCategory(category.categoryId)"
+              [class.active]="selectedCategoryId === null"
+              [attr.aria-pressed]="selectedCategoryId === null"
+              (click)="selectCategory(null)"
             >
-              {{ category.name }}
+              All
+            </button>
+            @for (category of categories; track category.categoryId) {
+              <button
+                type="button"
+                class="category-pill"
+                [class.active]="selectedCategoryId === category.categoryId"
+                [attr.aria-pressed]="selectedCategoryId === category.categoryId"
+                (click)="selectCategory(category.categoryId)"
+              >
+                {{ category.name }}
+              </button>
+            }
+          </div>
+
+          @if (!(isMobile$ | async)) {
+            <button
+              type="button"
+              mat-icon-button
+              class="category-scroll-button category-scroll-button--end"
+              (click)="scrollCategoryPills('right')"
+              aria-label="Scroll categories right"
+            >
+              <mat-icon>chevron_right</mat-icon>
             </button>
           }
         </div>
