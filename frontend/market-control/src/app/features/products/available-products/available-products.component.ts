@@ -133,6 +133,34 @@ export class AvailableProductsComponent implements OnInit, OnDestroy {
 
     this.selectedCategoryId = categoryId;
     this.productService.getProductsByCategory(categoryId);
+    this.scrollSelectedCategoryIntoView();
+  }
+
+  private scrollSelectedCategoryIntoView(): void {
+    const container = this.categoryFilterRef?.nativeElement;
+    if (!container) return;
+
+    const runScroll = () => {
+      const activeButton = container.querySelector<HTMLElement>('.category-pill.active');
+      if (!activeButton) return;
+
+      const containerLeft = container.scrollLeft;
+      const containerRight = containerLeft + container.clientWidth;
+      const buttonLeft = activeButton.offsetLeft;
+      const buttonRight = buttonLeft + activeButton.offsetWidth;
+      const padding = 8;
+
+      if (buttonLeft < containerLeft + padding) {
+        container.scrollTo({ left: Math.max(0, buttonLeft - padding), behavior: 'smooth' });
+      } else if (buttonRight > containerRight - padding) {
+        container.scrollTo({
+          left: buttonRight - container.clientWidth + padding,
+          behavior: 'smooth',
+        });
+      }
+    };
+
+    setTimeout(runScroll, 0);
   }
 
   private defineStreams(): void {

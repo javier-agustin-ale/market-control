@@ -16,7 +16,7 @@
     </mat-form-field>
 
     @if (categories$ | async; as categories) {
-      @if (categories.length && !(isLoadingProducts$ | async)) {
+      @if (categories.length) {
         <div class="category-filter-wrapper">
           @if (!(isMobile$ | async)) {
             <button

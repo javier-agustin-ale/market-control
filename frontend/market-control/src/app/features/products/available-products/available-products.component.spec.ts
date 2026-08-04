@@ -1,7 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
+import { of } from 'rxjs';
 import { AvailableProductsComponent } from './available-products.component';
 
 describe('AvailableProductsComponent', () => {
@@ -58,4 +59,37 @@ describe('AvailableProductsComponent', () => {
       }),
     );
   });
+
+  it('should keep the category filters visible while products are loading', () => {
+    component.categories$ = of([{ categoryId: 1, name: 'Fruit' }]);
+    component.isLoadingProducts$ = of(true);
+
+    fixture.detectChanges();
+
+    const categoryFilterWrapper = fixture.nativeElement.querySelector('.category-filter-wrapper');
+    expect(categoryFilterWrapper).toBeTruthy();
+  });
+
+  it('should scroll the selected category pill into view after selection', fakeAsync(() => {
+    const container = document.createElement('div');
+    const button = document.createElement('button');
+    button.className = 'category-pill active';
+    Object.defineProperty(button, 'offsetLeft', { configurable: true, value: 40 });
+    Object.defineProperty(button, 'offsetWidth', { configurable: true, value: 80 });
+    Object.defineProperty(container, 'scrollLeft', { configurable: true, writable: true, value: 0 });
+    Object.defineProperty(container, 'clientWidth', { configurable: true, value: 120 });
+    container.appendChild(button);
+
+    component['categoryFilterRef'] = { nativeElement: container } as any;
+    const scrollToSpy = spyOn(container, 'scrollTo');
+
+    component.selectCategory(1);
+    tick(0);
+
+    expect(scrollToSpy).toHaveBeenCalled();
+    const firstCall = scrollToSpy.calls.first();
+    const options = firstCall?.args[0] as unknown as { left: number; behavior: string } | undefined;
+    expect(options?.left).toBe(32);
+    expect(options?.behavior).toBe('smooth');
+  }));
 });
