@@ -40,6 +40,21 @@
     </div>
   </div>
 
+  <div class="form-field-container">
+    <mat-form-field
+      class="input-form"
+      appearance="outline"
+      [class.mat-form-field-invalid]="isControlInvalid('categoryId')"
+    >
+      <mat-label>Product Category</mat-label>
+      <mat-select formControlName="categoryId">
+        @for (category of categories$ | async; track category.categoryId) {
+          <mat-option [value]="category.categoryId">{{ category.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
   <mat-checkbox class="contains-offer" formControlName="containsOffer">
     Contains Offer
   </mat-checkbox>

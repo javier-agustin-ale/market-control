@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, Observable, of, take, tap, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
@@ -15,6 +15,7 @@ export class ProductService {
   private isLoadingProductsSubject = new BehaviorSubject<boolean>(false);
   public isLoadingProducts$: Observable<boolean> = this.isLoadingProductsSubject.asObservable();
 
+  private selectedCategoryId: number | null = null;
   private apiUrl: string = environment.apiUrl;
 
   constructor(
@@ -35,7 +36,7 @@ export class ProductService {
           });
           return throwError(() => error);
         }),
-        tap(() => this.getProducts()),
+        tap(() => this.getProducts(this.selectedCategoryId)),
       );
   }
 
@@ -50,7 +51,7 @@ export class ProductService {
           });
           return throwError(() => error);
         }),
-        tap(() => this.getProducts()),
+        tap(() => this.getProducts(this.selectedCategoryId)),
       );
   }
 
@@ -67,15 +68,21 @@ export class ProductService {
           });
           return throwError(() => error);
         }),
-        tap(() => this.getProducts()),
+        tap(() => this.getProducts(this.selectedCategoryId)),
       );
   }
 
-  private getProducts(): void {
+  public getProductsByCategory(categoryId: number | null): void {
+    this.selectedCategoryId = categoryId;
+    this.getProducts(categoryId);
+  }
+
+  private getProducts(categoryId: number | null = null): void {
     this.isLoadingProductsSubject.next(true);
+    const params = categoryId ? new HttpParams().set('categoryId', categoryId) : undefined;
 
     this.httpClient
-      .get<Product[]>(`${this.apiUrl}/allProducts`)
+      .get<Product[]>(`${this.apiUrl}/allProducts`, { params })
       .pipe(
         take(1),
         catchError((error) => {

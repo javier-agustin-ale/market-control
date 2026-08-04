@@ -4,14 +4,21 @@ import "./config.js";
 import authRoutes from "./routes/authRoutes.js";
 import marketControlRoutes from "./routes/marketControlRoutes.js";
 
+import "./models/accountRequest.js";
+import "./models/category.js";
 import "./models/product.js";
 import "./models/user.js";
-import "./models/accountRequest.js";
 
 const app = express();
 
-const allowedOrigin = process.env.CLIENT_ORIGIN || (process.env.NODE_ENV === "production" ? null : "http://localhost:5173");
-const corsOrigin = allowedOrigin || (process.env.NODE_ENV === "production" ? false : ["http://localhost:5173", "http://127.0.0.1:5173"]);
+const allowedOrigin =
+  process.env.CLIENT_ORIGIN ||
+  (process.env.NODE_ENV === "production" ? null : "http://localhost:5173");
+const corsOrigin =
+  allowedOrigin ||
+  (process.env.NODE_ENV === "production"
+    ? false
+    : ["http://localhost:5173", "http://127.0.0.1:5173"]);
 
 app.use(
   cors({
